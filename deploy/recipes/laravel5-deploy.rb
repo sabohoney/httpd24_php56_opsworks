@@ -5,11 +5,13 @@
 
 node[:deploy].each do |app_name, deploy|
 
-  # Execute `composer install`.
-  execute "composer" do
-    command <<-EOH
-      composer create-project stolz/wiki #{deploy[:deploy_to]}/current --prefer-dist --stability=dev --no-scripts
-    EOH
+  if File.exists?("#{deploy[:deploy_to]}/current")
+    # Execute `composer install`.
+    execute "composer" do
+      command <<-EOH
+        composer create-project stolz/wiki #{deploy[:deploy_to]}/current --prefer-dist --stability=dev --no-scripts
+      EOH
+    end
   end
 
   # Copy the ".env.example" to ".env", and edit environment configration from 'Stack Custom JSON' setting.
