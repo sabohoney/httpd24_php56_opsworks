@@ -1,0 +1,1 @@
+default['aws_info']['instance-type'] = nil

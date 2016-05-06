@@ -1,0 +1,4 @@
+Host wan55cr.git.backlog.jp
+  HostName wan55cr.git.backlog.jp
+  User wan55cr
+  IdentityFile ~/.ssh/backlog
