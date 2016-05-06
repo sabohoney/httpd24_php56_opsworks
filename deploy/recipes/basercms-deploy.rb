@@ -30,7 +30,7 @@ node[:deploy].each do |app_name, deploy|
     end
   end
 
-  if !::File.exists?("#{deploy[:deploy_to]}/current/app/Config/install.php")
+  if !::File.exists?("#{deploy[:deploy_to]}/current/app/Config/install.php") && node[:basercms_deploy][:install] == true
     execute "BaserCMS install" do
       command <<-EOH
         cd #{deploy[:deploy_to]}/current/app && Console/cake bc_manager install
