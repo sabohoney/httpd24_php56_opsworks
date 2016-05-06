@@ -6,7 +6,7 @@
 node[:deploy].each do |app_name, deploy|
 
   # Setting
-  if defined?(node[:basercms_deploy][:db_conf])
+  if node[:basercms_deploy][:db_conf] != false
     template "#{deploy[:deploy_to]}/current/app/Config/database.php" do
       group deploy[:group]
       owner deploy[:user]
@@ -19,7 +19,7 @@ node[:deploy].each do |app_name, deploy|
     end
   end
 
-  if defined?(node[:basercms_deploy][:install])
+  if node[:basercms_deploy][:install] != false
     template "#{deploy[:deploy_to]}/current/app/Config/install.php" do
       group deploy[:group]
       owner deploy[:user]
