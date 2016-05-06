@@ -3,6 +3,7 @@ if [ -f ~/.git-completion.bash ]; then
     source ~/.git-prompt.sh
     source ~/.git-completion.sh
 else
+    source /usr/share/doc/git-2.7.4/contrib/completion/git-prompt.sh
     source /usr/share/doc/git-2.7.4/contrib/completion/git-completion.bash
 fi
 GIT_PS1_SHOWDIRTYSTATE=true
