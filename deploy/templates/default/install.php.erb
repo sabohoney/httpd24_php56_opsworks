@@ -1,0 +1,13 @@
+<?php
+Configure::write('Security.salt', '<%= ENV['salt'] %>');
+Configure::write('Security.cipherSeed', '<%= ENV[''] %>');
+Configure::write('Cache.disable', <%= ENV['disable'] %>);
+Configure::write('Cache.check', <%= ENV['check'] %>);
+Configure::write('Session.save', '<%= ENV['save'] %>');
+Configure::write('BcEnv.siteUrl', '<%= ENV['siteUrl'] %>');
+Configure::write('BcEnv.sslUrl', '<%= ENV['sslUrl'] %>');
+Configure::write('BcApp.adminSsl', <%= ENV['adminSsl'] %>);
+Configure::write('BcApp.mobile', <%= ENV['mobile'] %>);
+Configure::write('BcApp.smartphone', <%= ENV['smartphone'] %>);
+Cache::config('default', array('engine' => 'File'));
+Configure::write('debug', 0);

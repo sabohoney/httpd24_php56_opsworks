@@ -1,0 +1,42 @@
+<?php
+//
+// Database Configuration File created by baserCMS Installation
+//
+class DATABASE_CONFIG {
+public $baser = array(
+	'datasource' => 'Database/BcMysql',
+	'persistent' => false,
+	'host' => '<%= CORE['host'] %>',
+	'port' => '<%= CORE['port'] %>',
+	'login' => '<%= CORE['login'] %>',
+	'password' => '<%= CORE['password'] %>',
+	'database' => '<%= CORE['database'] %>',
+	'schema' => '',
+	'prefix' => '<%= CORE['prefix'] %>',
+	'encoding' => 'utf8'
+);
+public $plugin = array(
+	'datasource' => 'Database/BcMysql',
+	'persistent' => false,
+	'host' => '<%= PLUGIN['host'] %>',
+	'port' => '<%= PLUGIN['port'] %>',
+	'login' => '<%= PLUGIN['login'] %>',
+	'password' => '<%= PLUGIN['password'] %>',
+	'database' => '<%= PLUGIN['database'] %>',
+	'schema' => '',
+	'prefix' => '<%= PLUGIN['prefix'] %>',
+	'encoding' => 'utf8'
+);
+public $test = array(
+	'datasource' => 'Database/BcMysql',
+	'persistent' => false,
+	'host' => '<%= TEST['host'] %>',
+	'port' => '<%= TEST['port'] %>',
+	'login' => '<%= TEST['login'] %>',
+	'password' => '<%= TEST['password'] %>',
+	'database' => '<%= TEST['database'] %>',
+	'schema' => '',
+	'prefix' => '<%= TEST['prefix'] %>',
+	'encoding' => 'utf8'
+);
+}
