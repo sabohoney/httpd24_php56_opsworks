@@ -38,24 +38,26 @@ node[:deploy].each do |app_name, deploy|
     end
   end
 
-  file "#{deploy[:deploy_to]}/current/app/.htaccess" do
-    group deploy[:group]
-    owner deploy[:user]
-    content <<-EOH
-Require all denied
-    EOH
-  end
-
-  file "#{deploy[:deploy_to]}/current/app/webroot/.htaccess" do
-    group deploy[:group]
-    owner deploy[:user]
-    content <<-EOH
-Require all granted
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ index.php [QSA,L]
-    EOH
+  if ::File.exists?("#{deploy[:deploy_to]}/current/app")
+    file "#{deploy[:deploy_to]}/current/app/.htaccess" do
+      group deploy[:group]
+      owner deploy[:user]
+      content <<-EOH
+  Require all denied
+      EOH
+    end
+  
+    file "#{deploy[:deploy_to]}/current/app/webroot/.htaccess" do
+      group deploy[:group]
+      owner deploy[:user]
+      content <<-EOH
+  Require all granted
+  RewriteEngine on
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php [QSA,L]
+      EOH
+    end
   end
 
 end
