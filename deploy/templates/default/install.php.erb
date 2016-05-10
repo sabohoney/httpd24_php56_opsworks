@@ -1,6 +1,6 @@
 <?php
 Configure::write('Security.salt', '<%= ENV['salt'] %>');
-Configure::write('Security.cipherSeed', '<%= ENV[''] %>');
+Configure::write('Security.cipherSeed', '<%= ENV['cipherSeed'] %>');
 Configure::write('Cache.disable', <%= ENV['disable'] %>);
 Configure::write('Cache.check', <%= ENV['check'] %>);
 Configure::write('Session.save', '<%= ENV['save'] %>');
