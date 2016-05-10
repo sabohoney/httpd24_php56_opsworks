@@ -6,37 +6,37 @@ class DATABASE_CONFIG {
 public $baser = array(
 	'datasource' => 'Database/BcMysql',
 	'persistent' => false,
-	'host' => '<%= CORE['host'] %>',
-	'port' => '<%= CORE['port'] %>',
-	'login' => '<%= CORE['login'] %>',
-	'password' => '<%= CORE['password'] %>',
-	'database' => '<%= CORE['database'] %>',
+	'host' => '<%= node[:deploy][:basercms][:database][:host] %>',
+	'port' => '<%= node[:deploy][:basercms][:database][:port] %>',
+	'login' => '<%= node[:deploy][:basercms][:database][:username] %>',
+	'password' => '<%= node[:deploy][:basercms][:database][:password] %>',
+	'database' => '<%= node[:deploy][:basercms][:database][:database] %>',
 	'schema' => '',
-	'prefix' => '<%= CORE['prefix'] %>',
+	'prefix' => 'mysite_',
 	'encoding' => 'utf8'
 );
 public $plugin = array(
 	'datasource' => 'Database/BcMysql',
 	'persistent' => false,
-	'host' => '<%= PLUGIN['host'] %>',
-	'port' => '<%= PLUGIN['port'] %>',
-	'login' => '<%= PLUGIN['login'] %>',
-	'password' => '<%= PLUGIN['password'] %>',
-	'database' => '<%= PLUGIN['database'] %>',
+	'host' => '<%= node[:deploy][:basercms][:database][:host] %>',
+	'port' => '<%= node[:deploy][:basercms][:database][:port] %>',
+	'login' => '<%= node[:deploy][:basercms][:database][:username] %>',
+	'password' => '<%= node[:deploy][:basercms][:database][:password] %>',
+	'database' => '<%= node[:deploy][:basercms][:database][:database] %>',
 	'schema' => '',
-	'prefix' => '<%= PLUGIN['prefix'] %>',
+	'prefix' => 'mysite_pg_',
 	'encoding' => 'utf8'
 );
 public $test = array(
 	'datasource' => 'Database/BcMysql',
 	'persistent' => false,
-	'host' => '<%= TEST['host'] %>',
-	'port' => '<%= TEST['port'] %>',
-	'login' => '<%= TEST['login'] %>',
-	'password' => '<%= TEST['password'] %>',
-	'database' => '<%= TEST['database'] %>',
+	'host' => '<%= node[:deploy][:basercms][:database][:host] %>',
+	'port' => '<%= node[:deploy][:basercms][:database][:port] %>',
+	'login' => '<%= node[:deploy][:basercms][:database][:username] %>',
+	'password' => '<%= node[:deploy][:basercms][:database][:password] %>',
+	'database' => '<%= node[:deploy][:basercms][:database][:database] %>',
 	'schema' => '',
-	'prefix' => '<%= TEST['prefix'] %>',
+	'prefix' => 'mysite_test_',
 	'encoding' => 'utf8'
 );
 }
