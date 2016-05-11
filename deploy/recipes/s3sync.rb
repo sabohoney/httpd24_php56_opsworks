@@ -19,11 +19,14 @@ node[:deploy].each do |app_name, deploy|
       group 'root'
     end
     directory "/home/#{deploy[:user]}/s3sync" do
+      user deploy[:user]
+      group deploy[:user]
       action :create
       recursive true
     end
     # Mount
     execute "export" do
+      cwd "/home/#{deploy[:user]}"
       command <<-EOH
         export GOPATH=$HOME/go
         go get github.com/kahing/goofys
@@ -35,7 +38,7 @@ node[:deploy].each do |app_name, deploy|
     # rsync Configure
     include_recipe 'rsync::server'
     rsync_serve "#{deploy[:deploy_to]}/current/app/webroot" do
-      path             "/home/#{deploy[:user]}/s3sync"
+      path "/home/#{deploy[:user]}/s3sync"
     end
   end
 
