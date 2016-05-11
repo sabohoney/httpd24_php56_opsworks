@@ -18,25 +18,19 @@ node[:deploy].each do |app_name, deploy|
       user 'root'
       group 'root'
     end
-    execute "export" do
-      command "export GOPATH=$HOME/go"
-      user deploy[:user]
-    end
-    execute "Download goofys" do
-      command "go get github.com/kahing/goofys"
-      user deploy[:user]
-    end
-    execute "Install goofys" do
-      command "go install github.com/kahing/goofys"
-      user deploy[:user]
-    end
-    # Mount
     directory "/home/#{deploy[:user]}/s3sync" do
-      action :delete
+      action :create
       recursive true
     end
-    execute "s3 mount" do
-      command "/home/ec2-sftpuser/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} /home/#{deploy[:user]}/s3sync"
+    # Mount
+    execute "export" do
+      command <<-EOH
+        export GOPATH=$HOME/go
+        go get github.com/kahing/goofys
+        go install github.com/kahing/goofys
+        /home/#{deploy[:user]}/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} /home/#{deploy[:user]}/s3sync
+      EOH
+      user deploy[:user]
     end
     # rsync Configure
     include_recipe 'rsync::server'
