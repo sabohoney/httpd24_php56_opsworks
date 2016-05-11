@@ -1,13 +1,13 @@
 <?php
-Configure::write('Security.salt', '<%= ENV['salt'] %>');
-Configure::write('Security.cipherSeed', '<%= ENV['cipherSeed'] %>');
-Configure::write('Cache.disable', <%= ENV['disable'] %>);
-Configure::write('Cache.check', <%= ENV['check'] %>);
-Configure::write('Session.save', '<%= ENV['save'] %>');
-Configure::write('BcEnv.siteUrl', '<%= ENV['siteUrl'] %>');
-Configure::write('BcEnv.sslUrl', '<%= ENV['sslUrl'] %>');
-Configure::write('BcApp.adminSsl', <%= ENV['adminSsl'] %>);
-Configure::write('BcApp.mobile', <%= ENV['mobile'] %>);
-Configure::write('BcApp.smartphone', <%= ENV['smartphone'] %>);
+Configure::write('Security.salt', '<%= node[:basercms_deploy][:install]['salt'] %>');
+Configure::write('Security.cipherSeed', '<%= node[:basercms_deploy][:install]['cipherSeed'] %>');
+Configure::write('Cache.disable', <%= node[:basercms_deploy][:install]['disable'] %>);
+Configure::write('Cache.check', <%= node[:basercms_deploy][:install]['check'] %>);
+Configure::write('Session.save', '<%= node[:basercms_deploy][:install]['save'] %>');
+Configure::write('BcEnv.siteUrl', '<%= node[:basercms_deploy][:install]['siteUrl'] %>');
+Configure::write('BcEnv.sslUrl', '<%= node[:basercms_deploy][:install]['sslUrl'] %>');
+Configure::write('BcApp.adminSsl', <%= node[:basercms_deploy][:install]['adminSsl'] %>);
+Configure::write('BcApp.mobile', <%= node[:basercms_deploy][:install]['mobile'] %>);
+Configure::write('BcApp.smartphone', <%= node[:basercms_deploy][:install]['smartphone'] %>);
 Cache::config('default', array('engine' => 'File'));
 Configure::write('debug', 0);
