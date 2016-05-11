@@ -31,7 +31,9 @@ node[:deploy].each do |app_name, deploy|
         export GOPATH=$HOME/go
         go get github.com/kahing/goofys
         go install github.com/kahing/goofys
+        mv /root/go /home/#{deploy[:user]}/.
         chown -R #{deploy[:user]}: /home/#{deploy[:user]}/go
+        su - #{deploy[:user]}
         /home/#{deploy[:user]}/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} /home/#{deploy[:user]}/s3sync
       EOH
     end
@@ -39,6 +41,7 @@ node[:deploy].each do |app_name, deploy|
     include_recipe 'rsync::server'
     rsync_serve "#{deploy[:deploy_to]}/current/app/webroot" do
       path "/home/#{deploy[:user]}/s3sync"
+      user deploy[:user]
     end
   end
 
