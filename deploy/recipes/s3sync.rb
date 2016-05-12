@@ -26,15 +26,11 @@ node[:deploy].each do |app_name, deploy|
     end
     # Mount
     execute "export" do
-      cwd "/home/#{deploy[:user]}"
       command <<-EOH
         export GOPATH=$HOME/go
         go get github.com/kahing/goofys
         go install github.com/kahing/goofys
-        mv /root/go /home/#{deploy[:user]}/.
-        chown -R #{deploy[:user]}: /home/#{deploy[:user]}/go
-        su - #{deploy[:user]}
-        /home/#{deploy[:user]}/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} /home/#{deploy[:user]}/s3sync
+        ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} /home/#{deploy[:user]}/s3sync
       EOH
     end
     # rsync Configure
