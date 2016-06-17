@@ -19,7 +19,13 @@ node[:deploy].each do |app_name, deploy|
       group 'root'
     end
     directory "#{deploy[:deploy_to]}/current/app/webroot" do
+      recursive true
       action :delete
+    end
+    directory "#{deploy[:deploy_to]}/current/app/webroot" do
+      user deploy[:user]
+      action :create
+      recursive true
     end
     # Mount
     execute "export" do
