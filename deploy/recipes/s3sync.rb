@@ -37,10 +37,10 @@ node[:deploy].each do |app_name, deploy|
         sleep 30s
       EOH
     end
-    execute "git checkout" do
-      command "git checkout webroot"
-      cwd "#{deploy[:deploy_to]}/current/app"
-      user deploy[:user]
+#     execute "git checkout" do
+#       command "git checkout webroot"
+#       cwd "#{deploy[:deploy_to]}/current/app"
+#       user deploy[:user]
     end
     execute "Add write-access permission to storage directory" do
       command "chown -R apache:#{deploy[:group]} #{deploy[:deploy_to]}/current/app"
