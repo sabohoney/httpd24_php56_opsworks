@@ -36,6 +36,8 @@ node[:deploy].each do |app_name, deploy|
         ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot
         sleep 30s
       EOH
+      user deploy[:user]
+      group deploy[:group]
     end
 #     execute "git checkout" do
 #       command "git checkout webroot"
