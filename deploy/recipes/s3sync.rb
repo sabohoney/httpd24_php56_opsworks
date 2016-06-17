@@ -33,7 +33,7 @@ node[:deploy].each do |app_name, deploy|
         export GOPATH=$HOME/go
         go get github.com/kahing/goofys
         go install github.com/kahing/goofys
-        ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current
+        ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot
       EOH
     end
     execute "git checkout" do
