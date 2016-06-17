@@ -35,8 +35,8 @@ node[:deploy].each do |app_name, deploy|
     end
     # rsync Configure
     include_recipe 'rsync::server'
-    rsync_serve "/home/#{deploy[:user]}/s3sync" do
-      path "#{deploy[:deploy_to]}/current/app/webroot"
+    rsync_serve "#{deploy[:deploy_to]}/current/app/webroot" do
+      path "/home/#{deploy[:user]}/s3sync"
     end
   end
 
