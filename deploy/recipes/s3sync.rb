@@ -18,11 +18,8 @@ node[:deploy].each do |app_name, deploy|
       user 'root'
       group 'root'
     end
-    directory "/home/#{deploy[:user]}/s3sync" do
-      user deploy[:user]
-      group deploy[:user]
-      action :create
-      recursive true
+    directory "#{deploy[:deploy_to]}/current/app/webroot" do
+      action :delete
     end
     # Mount
     execute "export" do
@@ -32,6 +29,18 @@ node[:deploy].each do |app_name, deploy|
         go install github.com/kahing/goofys
         ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current
       EOH
+    end
+    execute "git checkout" do
+      command "git checkout #{deploy[:deploy_to]}/current/app/webroot"
+      user deploy[:user]
+    end
+    execute "Add write-access permission to storage directory" do
+      command "chown -R apache:#{deploy[:group]} #{deploy[:deploy_to]}/current/app"
+    end
+  
+    # Add write-access permission to "shared/log" directory.
+    execute "Add write-access permission to storage directory" do
+      command "chmod -R g+w #{deploy[:deploy_to]}/current/app"
     end
   end
 
