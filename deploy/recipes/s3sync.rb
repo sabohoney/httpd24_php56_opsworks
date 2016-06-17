@@ -34,6 +34,7 @@ node[:deploy].each do |app_name, deploy|
         go get github.com/kahing/goofys
         go install github.com/kahing/goofys
         ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot
+        sleep 30s
       EOH
     end
     execute "git checkout" do
