@@ -41,7 +41,7 @@ node[:deploy].each do |app_name, deploy|
 #       command "git checkout webroot"
 #       cwd "#{deploy[:deploy_to]}/current/app"
 #       user deploy[:user]
-    end
+#     end
     execute "Add write-access permission to storage directory" do
       command "chown -R apache:#{deploy[:group]} #{deploy[:deploy_to]}/current/app"
     end
