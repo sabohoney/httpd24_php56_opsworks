@@ -28,14 +28,22 @@ node[:deploy].each do |app_name, deploy|
       recursive true
     end
     # Mount
+    uid = %x[id -u deploy]
+    gid = %x[id -g apache]
     execute "export" do
       command <<-EOH
-        export GOPATH=$HOME/go
-        go get github.com/kahing/goofys
-        go install github.com/kahing/goofys
-        ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=48,--gid=48
+        goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=#{uid},--gid=#{gid}
         sleep 30s
       EOH
+    end
+    # fstab
+    mount "#{deploy[:deploy_to]}/current/app/webroot" do
+      device   "goofys##{node[:basercms_deploy][:bucket_name]}"
+      pass     0
+      dump     0
+      fstype   'fuse'
+      options  "_netdev,allow_other,--uid=#{uid},--gid=#{gid}"
+      action   [:mount, :enable]
     end
 #     execute "git checkout" do
 #       command "git checkout webroot"
