@@ -28,8 +28,8 @@ node[:deploy].each do |app_name, deploy|
       recursive true
     end
     # Mount
-    uid = `id -u deploy`
-    gid = `id -g apache`
+    uid = %x(id -u deploy)
+    gid = %x(id -g apache)
     execute "export" do
       command <<-EOH
         goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=#{uid},--gid=#{gid}
@@ -37,14 +37,14 @@ node[:deploy].each do |app_name, deploy|
       EOH
     end
     # fstab
-    mount "#{deploy[:deploy_to]}/current/app/webroot" do
-      device   "goofys##{node[:basercms_deploy][:bucket_name]}"
-      pass     0
-      dump     0
-      fstype   'fuse'
-      options  "_netdev,allow_other,--uid=#{uid},--gid=#{gid}"
-      action   [:mount, :enable]
-    end
+#     mount "#{deploy[:deploy_to]}/current/app/webroot" do
+#       device   "goofys##{node[:basercms_deploy][:bucket_name]}"
+#       pass     0
+#       dump     0
+#       fstype   'fuse'
+#       options  "_netdev,allow_other,--uid=#{uid},--gid=#{gid}"
+#       action   [:mount, :enable]
+#     end
 #     execute "git checkout" do
 #       command "git checkout webroot"
 #       cwd "#{deploy[:deploy_to]}/current/app"
