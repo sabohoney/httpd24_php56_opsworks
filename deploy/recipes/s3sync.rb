@@ -33,12 +33,9 @@ node[:deploy].each do |app_name, deploy|
         export GOPATH=$HOME/go
         go get github.com/kahing/goofys
         go install github.com/kahing/goofys
-        ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot
+        ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=48,--gid=48
         sleep 30s
       EOH
-      cwd "/home/#{deploy[:user]}"
-      user deploy[:user]
-      group deploy[:group]
     end
 #     execute "git checkout" do
 #       command "git checkout webroot"
