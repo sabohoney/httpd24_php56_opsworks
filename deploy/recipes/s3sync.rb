@@ -36,6 +36,7 @@ node[:deploy].each do |app_name, deploy|
         ~/go/bin/goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot
         sleep 30s
       EOH
+      cwd "/home/#{deploy[:user]}"
       user deploy[:user]
       group deploy[:group]
     end
