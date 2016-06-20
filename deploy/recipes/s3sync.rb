@@ -57,13 +57,13 @@ node[:deploy].each do |app_name, deploy|
 #     end
   end
   # fstab
-  mount "#{deploy[:deploy_to]}/current/app/webroot" do
-    device   "goofys##{node[:basercms_deploy][:bucket_name]}"
-    pass     0
-    dump     0
-    fstype   'fuse'
-    options  "_netdev,allow_other,--uid=#{uid},--gid=#{gid}"
-    action   [:mount, :enable]
-  end
+#   mount "#{deploy[:deploy_to]}/current/app/webroot" do
+#     device   "goofys##{node[:basercms_deploy][:bucket_name]}"
+#     pass     0
+#     dump     0
+#     fstype   'fuse'
+#     options  "_netdev,allow_other,--uid=#{uid},--gid=#{gid}"
+#     action   [:mount, :enable]
+#   end
 
 end
