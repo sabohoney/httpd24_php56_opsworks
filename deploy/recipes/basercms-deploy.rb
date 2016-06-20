@@ -43,7 +43,7 @@ node[:deploy].each do |app_name, deploy|
       group deploy[:group]
       owner deploy[:user]
       content <<-EOH
-  Require all denied
+Require all denied
       EOH
     end
   
@@ -51,11 +51,11 @@ node[:deploy].each do |app_name, deploy|
       group deploy[:group]
       owner deploy[:user]
       content <<-EOH
-  Require all granted
-  RewriteEngine on
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteRule ^(.*)$ index.php [QSA,L]
+Require all granted
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]
       EOH
     end
   end
