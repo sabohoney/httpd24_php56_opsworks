@@ -33,8 +33,8 @@ node[:deploy].each do |app_name, deploy|
     recursive true
   end
   # Mount
-  uid = %x(id -u deploy)
-  gid = %x(id -g apache)
+  uid = '4000'#%x(id -u deploy)
+  gid = '48'#%x(id -g apache)
   execute "export" do
     command <<-EOH
       goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=#{uid},--gid=#{gid}
