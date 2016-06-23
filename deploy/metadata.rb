@@ -12,6 +12,7 @@ depends "opsworks_agent_monit"
 depends "php"
 depends "mysql"
 depends "golang"
+depends "lsyncd"
 
 recipe "deploy::php-deploy", "Deploy a PHP application"
 recipe "deploy::basercms-deploy", "Basic Configuration for BaserCMS"
