@@ -43,25 +43,13 @@ node[:deploy].each do |app_name, deploy|
   lsyncd_target 'from_s3' do
     source "#{deploy[:deploy][application][:home]}/s3sync"
     target "#{deploy[:deploy_to]}/current/app/webroot"
-    rsync_opts {
-        :binary => "/usr/bin/rsync",
-        :archive => true,
-        :compress => true,
-        :owner => true,
-        :group => true
-    }
+    rsync_opts ["-a"]
     notifies :restart, 'service[lsyncd]', :delayed
   end
   lsyncd_target 'to_s3' do
     source "#{deploy[:deploy_to]}/current/app/webroot"
     target "#{deploy[:deploy][application][:home]}/s3sync"
-    rsync_opts {
-        :binary => "/usr/bin/rsync",
-        :archive => true,
-        :compress => true,
-        :owner => true,
-        :group => true
-    }
+    rsync_opts ["-a"]
     notifies :restart, 'service[lsyncd]', :delayed
   end
   execute "s3 Sync by goofys" do
