@@ -36,6 +36,12 @@ node[:deploy].each do |app_name, deploy|
     recursive true
     action :delete
   end
+  directory "#{deploy[:home]}/s3sync" do
+    user deploy[:user]
+    group deploy[:group]
+    action :create
+    recursive true
+  end
   # Mount
   uid = '4000'#%x(id -u deploy)
   gid = '48'#%x(id -g apache)
@@ -74,7 +80,7 @@ node[:deploy].each do |app_name, deploy|
 #     end
   end
   # fstab
-  mount "#{deploy[:deploy_to]}/current/app/webroot" do
+  mount "#{deploy[:home]}/s3sync" do
     device   "/opt/go/bin/goofys##{node[:basercms_deploy][:bucket_name]}"
     pass     0
     dump     0
