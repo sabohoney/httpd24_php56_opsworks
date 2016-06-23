@@ -32,7 +32,7 @@ node[:deploy].each do |app_name, deploy|
     action :create
     recursive true
   end
-  directory "#{deploy[:deploy][application][:home]}/s3sync" do
+  directory "#{deploy[:home]}/s3sync" do
     recursive true
     action :delete
   end
@@ -41,20 +41,20 @@ node[:deploy].each do |app_name, deploy|
   gid = '48'#%x(id -g apache)
   # lsync
   lsyncd_target 'from_s3' do
-    source "#{deploy[:deploy][application][:home]}/s3sync"
+    source "#{deploy[:home]}/s3sync"
     target "#{deploy[:deploy_to]}/current/app/webroot"
     rsync_opts ["-a"]
     notifies :restart, 'service[lsyncd]', :delayed
   end
   lsyncd_target 'to_s3' do
     source "#{deploy[:deploy_to]}/current/app/webroot"
-    target "#{deploy[:deploy][application][:home]}/s3sync"
+    target "#{deploy[:home]}/s3sync"
     rsync_opts ["-a"]
     notifies :restart, 'service[lsyncd]', :delayed
   end
   execute "s3 Sync by goofys" do
     command <<-EOH
-      goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:deploy][application][:home]}/s3sync -o allow_other,--uid=#{uid},--gid=#{gid}
+      goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:home]}/s3sync -o allow_other,--uid=#{uid},--gid=#{gid}
       sleep 30s
     EOH
   end
