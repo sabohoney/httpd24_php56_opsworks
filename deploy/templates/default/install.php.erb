@@ -3,7 +3,14 @@ Configure::write('Security.salt', '<%= node[:basercms_deploy][:install]['salt'] 
 Configure::write('Security.cipherSeed', '<%= node[:basercms_deploy][:install]['cipherSeed'] %>');
 Configure::write('Cache.disable', <%= node[:basercms_deploy][:install]['disable'] %>);
 Configure::write('Cache.check', <%= node[:basercms_deploy][:install]['check'] %>);
-Configure::write('Session.save', '<%= node[:basercms_deploy][:install]['save'] %>');
+Configure::write('Session', [
+    'defaults' => 'database',
+    'cookie' => '<%= node[:basercms_deploy][:install]['session']['cookie'] %>',
+    'timeout' => <%= node[:basercms_deploy][:install]['session']['timeout'] %>,
+    'handler' => [
+        'model'=>'BcSession',
+    ],
+]);
 Configure::write('BcEnv.siteUrl', '<%= node[:basercms_deploy][:install]['siteUrl'] %>');
 Configure::write('BcEnv.sslUrl', '<%= node[:basercms_deploy][:install]['sslUrl'] %>');
 Configure::write('BcApp.adminSsl', <%= node[:basercms_deploy][:install]['adminSsl'] %>);
