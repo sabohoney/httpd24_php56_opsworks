@@ -6,7 +6,6 @@
 node[:deploy].each do |app_name, deploy|
 
   chef_gem "aws-sdk" do
-    compile_time false
     action :install
   end
   require "aws-sdk"
