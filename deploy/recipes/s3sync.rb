@@ -12,7 +12,7 @@ node[:deploy].each do |app_name, deploy|
     isCreate = false;
   else
     isCreate = true;
-    s3.buckets.create node[:basercms_deploy][:bucket_name] unless s3.buckets[bucket_name].exists?
+    s3.buckets_create(:bucket => node[:basercms_deploy][:bucket_name])
   end
   # Go & Goofys Install
   package "golang"
