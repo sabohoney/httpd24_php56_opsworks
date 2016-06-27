@@ -5,7 +5,7 @@
 
 node[:deploy].each do |app_name, deploy|
 
-  require "aws-sdk"
+  require 'aws-sdk'
   Aws.config[:region] = "ap-northeast-1"
   s3cli = Aws::S3::Client.new
   s3res = Aws::S3::Resource.new
