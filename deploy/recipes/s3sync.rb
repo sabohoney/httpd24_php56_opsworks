@@ -6,7 +6,7 @@
 node[:deploy].each do |app_name, deploy|
 
   require 'aws-sdk'
-  s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')
+  s3 = Aws::S3.Resource.new(region: 'ap-northeast-1')
   if s3.bucket(node[:basercms_deploy][:bucket_name]).exists?
     isCreate = false;
   else
