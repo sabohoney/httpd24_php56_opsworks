@@ -6,7 +6,7 @@
 node[:deploy].each do |app_name, deploy|
 
   require 'aws-sdk'
-  s3 = AWS::S3.new
+  s3 = AWS::S3.new "ap-northeast-1"
   bucket = s3.buckets[node[:basercms_deploy][:bucket_name]]
   if bucket.exists?
     isCreate = false;
