@@ -6,9 +6,8 @@
 node[:deploy].each do |app_name, deploy|
 
   require 'aws-sdk'
-  Aws.config[:region] = "ap-northeast-1"
-  s3cli = Aws::S3::Client.new
-  s3res = Aws::S3::Resource.new
+  s3cli = Aws::S3::Client.new(region: 'ap-northeast-1')
+  s3res = Aws::S3::Resource.new(region: 'ap-northeast-1')
   if s3res.bucket(node[:basercms_deploy][:bucket_name]).exists?
     isCreate = false;
   else
