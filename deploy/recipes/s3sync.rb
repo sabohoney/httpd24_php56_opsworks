@@ -6,13 +6,12 @@
 node[:deploy].each do |app_name, deploy|
 
   require 'aws-sdk'
-  s3cli = Aws::S3::Client.new(region: 'ap-northeast-1')
-  s3res = Aws::S3::Resource.new(region: 'ap-northeast-1')
-  if s3res.bucket(node[:basercms_deploy][:bucket_name]).exists?
+  s3 = Aws::S3::Resource.new(region: 'ap-northeast-1')
+  if s3.bucket(node[:basercms_deploy][:bucket_name]).exists?
     isCreate = false;
   else
     isCreate = true;
-    s3cli.create_bucket(:bucket => node[:basercms_deploy][:bucket_name])
+    s3.create_bucket(bucket: node[:basercms_deploy][:bucket_name])
   end
   # Go & Goofys Install
   package "golang"
