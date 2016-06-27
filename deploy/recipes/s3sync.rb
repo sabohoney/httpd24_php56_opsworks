@@ -5,10 +5,14 @@
 
 node[:deploy].each do |app_name, deploy|
 
-  chef_gem "aws-sdk"
+  chef_gem "aws-sdk" do
+    compile_time false
+    action :install
+  end
   require "aws-sdk"
-  s3cli = Aws::S3::Client.new(:region => "ap-northeast-1")
-  s3res = Aws::S3::Resource.new(:region => "ap-northeast-1")
+  Aws.config[:region] = "ap-northeast-1"
+  s3cli = Aws::S3::Client.new
+  s3res = Aws::S3::Resource.new
   if s3res.bucket(node[:basercms_deploy][:bucket_name]).exists?
     isCreate = false;
   else
