@@ -14,13 +14,67 @@ Configure::write('BcEnv.sslUrl', '<%= node[:basercms_deploy][:install]['sslUrl']
 Configure::write('BcApp.adminSsl', <%= node[:basercms_deploy][:install]['adminSsl'] %>);
 Configure::write('BcApp.mobile', <%= node[:basercms_deploy][:install]['mobile'] %>);
 Configure::write('BcApp.smartphone', <%= node[:basercms_deploy][:install]['smartphone'] %>);
+// Cache
+$cacheEngine = '<%= node[:basercms_deploy][:install]['cache']['engine'] %>';
+$cacheDuration = <%= node[:basercms_deploy][:install]['cache']['duration'] %>;
+$cacheProbability = <%= node[:basercms_deploy][:install]['cache']['probability'] %>;
+$cacheServers = <%= "['" + node[:basercms_deploy][:install]['cache']['servers'].join("', '") + "']" %>;
+$cachePersistent = <%= node[:basercms_deploy][:install]['cache']['persistent'] %>;
+$cacheCompress = <%= node[:basercms_deploy][:install]['cache']['compress'] %>;
 Cache::config('default', [
-    'engine' => 'Memcached',
-    'duration' => <%= node[:basercms_deploy][:install]['cache']['duration'] %>,
-    'probability' => <%= node[:basercms_deploy][:install]['cache']['probability'] %>,
+    'engine' => $cacheEngine,
+    'duration' => $cacheDuration,
+    'probability' => $cacheProbability,
     'prefix' => Inflector::slug(APP_DIR) . '_',
-    'servers' => <%= "['" + node[:basercms_deploy][:install]['cache']['servers'].join("', '") + "']" %>,
-    'persistent' => <%= node[:basercms_deploy][:install]['cache']['persistent'] %>,
-    'compress' => <%= node[:basercms_deploy][:install]['cache']['compress'] %>,
+    'servers' => $cacheServers,
+    'persistent' => $cachePersistent,
+    'compress' => $cacheCompress,
 ]);
+// Model
+Cache::config('_cake_model_', array(
+	'engine' => $cacheEngine,
+	'prefix' => $cachePrefix . 'cake_model_',
+	'path' => CACHE . 'models' . DS,
+	'duration' => $cacheDuration,
+    'servers' => $cacheServers,
+    'probability' => $cacheProbability,
+    'persistent' => $cachePersistent,
+    'compress' => $cacheCompress,
+));
+// Core
+Cache::config('_cake_core_', [
+	'engine' => $cacheEngine,
+	'prefix' => $cachePrefix . 'cake_core_',
+	'path' => CACHE . 'persistent' . DS,
+	'duration' => $cacheDuration,
+    'servers' => $cacheServers,
+    'probability' => $cacheProbability,
+    'persistent' => $cachePersistent,
+    'compress' => $cacheCompress,
+]);
+// Data
+Cache::config('_cake_data_', [
+	'engine' => $cacheEngine,
+	'path' => CACHE . 'datas',
+	'probability' => 100,
+	'prefix' => $cachePrefix . 'cake_data_',
+	'lock' => true,
+	'duration' => $cacheDuration,
+    'servers' => $cacheServers,
+    'persistent' => $cachePersistent,
+    'compress' => $cacheCompress,
+]);
+// Configure
+Cache::config('_cake_env_', [
+	'engine' => $cacheEngine,
+	'probability' => 100,
+	'path' => CACHE . 'environment',
+	'prefix' => $cachePrefix . 'cake_env_',
+	'lock' => false,
+	'duration' => $cacheDuration,
+    'servers' => $cacheServers,
+    'persistent' => $cachePersistent,
+    'compress' => $cacheCompress,
+]);
+// Debug Mode
 Configure::write('debug', 0);
