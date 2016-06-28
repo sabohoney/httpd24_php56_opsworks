@@ -32,10 +32,10 @@ Cache::config('default', [
 ]);
 // Model
 Cache::config('_cake_model_', array(
-	'engine' => $cacheEngine,
-	'prefix' => $cachePrefix . 'cake_model_',
-	'path' => CACHE . 'models' . DS,
-	'duration' => $cacheDuration,
+    'engine' => $cacheEngine,
+    'prefix' => $cachePrefix . 'cake_model_',
+    'path' => CACHE . 'models' . DS,
+    'duration' => $cacheDuration,
     'servers' => $cacheServers,
     'probability' => $cacheProbability,
     'persistent' => $cachePersistent,
@@ -43,10 +43,10 @@ Cache::config('_cake_model_', array(
 ));
 // Core
 Cache::config('_cake_core_', [
-	'engine' => $cacheEngine,
-	'prefix' => $cachePrefix . 'cake_core_',
-	'path' => CACHE . 'persistent' . DS,
-	'duration' => $cacheDuration,
+    'engine' => $cacheEngine,
+    'prefix' => $cachePrefix . 'cake_core_',
+    'path' => CACHE . 'persistent' . DS,
+    'duration' => $cacheDuration,
     'servers' => $cacheServers,
     'probability' => $cacheProbability,
     'persistent' => $cachePersistent,
@@ -54,24 +54,24 @@ Cache::config('_cake_core_', [
 ]);
 // Data
 Cache::config('_cake_data_', [
-	'engine' => $cacheEngine,
-	'path' => CACHE . 'datas',
-	'probability' => 100,
-	'prefix' => $cachePrefix . 'cake_data_',
-	'lock' => true,
-	'duration' => $cacheDuration,
+    'engine' => $cacheEngine,
+    'path' => CACHE . 'datas',
+    'probability' => 100,
+    'prefix' => $cachePrefix . 'cake_data_',
+    'lock' => true,
+    'duration' => $cacheDuration,
     'servers' => $cacheServers,
     'persistent' => $cachePersistent,
     'compress' => $cacheCompress,
 ]);
 // Configure
 Cache::config('_cake_env_', [
-	'engine' => $cacheEngine,
-	'probability' => 100,
-	'path' => CACHE . 'environment',
-	'prefix' => $cachePrefix . 'cake_env_',
-	'lock' => false,
-	'duration' => $cacheDuration,
+    'engine' => $cacheEngine,
+    'probability' => 100,
+    'path' => CACHE . 'environment',
+    'prefix' => $cachePrefix . 'cake_env_',
+    'lock' => false,
+    'duration' => $cacheDuration,
     'servers' => $cacheServers,
     'persistent' => $cachePersistent,
     'compress' => $cacheCompress,
