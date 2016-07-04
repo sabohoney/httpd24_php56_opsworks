@@ -14,14 +14,14 @@ node[:deploy].each do |app_name, deploy|
     s3.buckets.create(node[:basercms_deploy][:bucket_name])
   end
   # Go & Goofys Install
-  package "golang"
-  package "fuse"
-  template "/etc/profile.d/go.sh" do
-    source "go.sh.erb"
-    mode 0644
-    user 'root'
-    group 'root'
-  end
+#   package "golang"
+#   package "fuse"
+#   template "/etc/profile.d/go.sh" do
+#     source "go.sh.erb"
+#     mode 0644
+#     user 'root'
+#     group 'root'
+#   end
   directory "#{deploy[:deploy_to]}/current/app/webroot" do
     recursive true
     action :delete
