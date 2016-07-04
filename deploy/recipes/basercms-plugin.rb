@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: plugin-deploy
+# Cookbook Name:: basercms-plugin
 # Recipe:: upload
 #
 
