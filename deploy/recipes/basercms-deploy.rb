@@ -37,9 +37,6 @@ node[:deploy].each do |app_name, deploy|
       EOH
     end
   end
-
-  # Permission
-#   include_recipe 'deploy::permission'
   # s3 Sync
   include_recipe 'deploy::s3sync'
   # Plugin
