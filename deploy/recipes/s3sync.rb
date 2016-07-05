@@ -15,7 +15,7 @@ node[:deploy].each do |app_name, deploy|
   end
   # Go & Goofys Install
 #   package "golang"
-#   package "fuse"
+  package "fuse"
 #   template "/etc/profile.d/go.sh" do
 #     source "go.sh.erb"
 #     mode 0644
