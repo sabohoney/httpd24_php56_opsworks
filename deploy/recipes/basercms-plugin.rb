@@ -8,7 +8,7 @@ node[:deploy].each do |app_name, deploy|
   Chef::Log.info("********** The First app's initial state is '#{node['state']}' **********")
   if ::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin")
     Chef::Log.info("********** The Second app's initial state is '#{node['state']}' **********")
-    node[:basercms_deploy][:plugins].each do |plugin|
+    node[:basercms_deploy][:plugins].each do |key, plugin|
       if !::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin/#{plugin[:name]}")
         case plugin[:type]
         when 'ssh'
