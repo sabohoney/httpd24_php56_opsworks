@@ -21,6 +21,7 @@ $cacheProbability = <%= node[:basercms_deploy][:install]['cache']['probability']
 $cacheServers = <%= "['" + node[:basercms_deploy][:install]['cache']['servers'].join("', '") + "']" %>;
 $cachePersistent = <%= node[:basercms_deploy][:install]['cache']['persistent'] %>;
 $cacheCompress = <%= node[:basercms_deploy][:install]['cache']['compress'] %>;
+$cachePrefix = '<%= node[:basercms_deploy][:install]['cache']['prefix'] %>';
 Cache::config('default', [
     'engine' => $cacheEngine,
     'duration' => $cacheDuration,
