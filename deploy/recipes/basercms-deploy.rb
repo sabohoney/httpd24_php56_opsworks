@@ -38,8 +38,8 @@ node[:deploy].each do |app_name, deploy|
     end
   end
   # s3 Sync
-  include_recipe 'deploy::s3sync'
+  #include_recipe 'deploy::s3sync'
   # Plugin
-  include_recipe 'deploy::basercms-plugin'
+  #include_recipe 'deploy::basercms-plugin'
 
 end
