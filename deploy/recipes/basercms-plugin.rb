@@ -6,7 +6,7 @@
 node[:deploy].each do |app_name, deploy|
 
   Chef::Log.info("********** The First app's initial state is '#{deploy[:deploy_to]}/current/app/Plugin' **********")
-  if ::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin")
+#  if ::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin")
     Chef::Log.info("********** The Second app's initial state is '#{node[:basercms_deploy][:plugins]}' **********")
     node[:basercms_deploy][:plugins].each do |key, plugin|
       if !::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin/#{plugin[:name]}")
@@ -39,7 +39,7 @@ node[:deploy].each do |app_name, deploy|
         end
       end
     end
-  end
+#  end
   Chef::Log.info("********** The Third app's initial state is '#{node['state']}' **********")
 
 end
