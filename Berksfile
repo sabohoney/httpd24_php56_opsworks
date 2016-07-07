@@ -8,3 +8,6 @@ cookbook 'php', '~> 1.9.0'
 
 # composer
 cookbook 'composer', '~> 2.3.0'
+
+# Git
+cookbook 'git', '~> 4.6.0'
