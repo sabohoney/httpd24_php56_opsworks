@@ -11,3 +11,6 @@ cookbook 'composer', '~> 2.3.0'
 
 # Git
 cookbook 'git', '~> 4.6.0'
+
+# Iptables for chef 11
+cookbook 'iptables', '1.1.0'
