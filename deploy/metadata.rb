@@ -13,7 +13,6 @@ depends "php"
 depends "mysql"
 depends "golang"
 depends "lsyncd"
-depends "git_ssh_wrapper"
 
 recipe "deploy::php-deploy", "Deploy a PHP application"
 recipe "deploy::basercms-deploy", "Basic Configuration for BaserCMS"
