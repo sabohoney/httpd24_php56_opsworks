@@ -1,13 +1,10 @@
 source 'https://supermarket.chef.io'
 
 # apache
-cookbook 'apache2', '~> 3.1.0'
+cookbook 'apache2', '~> 3.2.2'
 
 # php
-cookbook 'php', '~> 1.7.2'
+cookbook 'php', '~> 1.9.0'
 
 # composer
-cookbook 'composer', '~> 2.2.0'
-
-# git_ssh_wrapper
-cookbook 'git_ssh_wrapper', git: "https://github.com/tstat/chef-git_ssh_wrapper"
+cookbook 'composer', '~> 2.3.0'
