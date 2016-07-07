@@ -17,8 +17,7 @@ node[:deploy].each do |app_name, deploy|
             group deploy[:group]
             ssh_key_data deploy[:scm][:ssh_key]
           end
-          git plugin[:name] do
-            cwd "#{deploy[:deploy_to]}/current/app/Plugin"
+          git "#{deploy[:deploy_to]}/current/app/Plugin/#{plugin[:name]}" do
             repo plugin[:repository]
             revision plugin[:branch]
             user deploy[:user]
@@ -27,8 +26,7 @@ node[:deploy].each do |app_name, deploy|
             ssh_wrapper "#{Etc.getpwnam(deploy[:user]).dir}/.ssh/wrappers/#{app_name}_deploy_wrapper.sh"
           end
         when 'https'
-          git plugin[:name] do
-            cwd "#{deploy[:deploy_to]}/current/app/Plugin"
+          git "#{deploy[:deploy_to]}/current/app/Plugin/#{plugin[:name]}" do
             repo plugin[:repository]
             revision plugin[:branch]
             user deploy[:user]
