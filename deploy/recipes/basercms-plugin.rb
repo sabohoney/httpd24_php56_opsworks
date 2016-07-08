@@ -6,9 +6,9 @@ include_recipe 'deploy'
 
 node[:deploy].each do |app_name, deploy|
 
-  Chef::Log.info("********** The First app's initial state is '#{deploy[:deploy_to]}/current/app/Plugin' **********")
+  Chef::Log.info("********** The First deploy::basercms-plugin **********")
   if ::File.exists?(deploy[:home])
-    Chef::Log.info("********** The Second app's initial state is '#{node[:basercms_deploy][:plugins]}' **********")
+    Chef::Log.info("********** The Second deploy::basercms-plugin **********")
     node[:basercms_deploy][:plugins].each do |plugin|
       if !::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin/#{plugin[:name]}")
         case plugin[:type]
@@ -39,6 +39,6 @@ node[:deploy].each do |app_name, deploy|
       end
     end
   end
-  Chef::Log.info("********** The Third app's initial state is '#{node['state']}' **********")
+  Chef::Log.info("********** The Third deploy::basercms-plugin **********")
 
 end

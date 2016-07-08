@@ -5,6 +5,7 @@
 
 node[:deploy].each do |app_name, deploy|
 
+  Chef::Log.info("********** The First deploy::basercms-plugin **********")
   # Setting
   if node[:basercms_deploy][:db_conf] != false
     template "#{deploy[:deploy_to]}/current/app/Config/database.php" do
@@ -41,5 +42,6 @@ node[:deploy].each do |app_name, deploy|
   #include_recipe 'deploy::s3sync'
   # Plugin
   #include_recipe 'deploy::basercms-plugin'
+  Chef::Log.info("********** The Second deploy::basercms-plugin **********")
 
 end
