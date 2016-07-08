@@ -45,6 +45,7 @@ node[:deploy].each do |app_name, deploy|
   uid = '4000'#%x(id -u deploy)
   gid = '48'#%x(id -g apache)
   # lsync
+  include_recipe 'lsyncd'
   lsyncd_target 'from_s3' do
     source "#{deploy[:home]}/s3sync"
     target "#{deploy[:deploy_to]}/current/app/webroot"
