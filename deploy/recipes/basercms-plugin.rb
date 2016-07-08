@@ -7,7 +7,7 @@ include_recipe 'deploy'
 node[:deploy].each do |app_name, deploy|
 
   Chef::Log.info("********** The First app's initial state is '#{deploy[:deploy_to]}/current/app/Plugin' **********")
-  if ::File.exists?(Etc.getpwnam(deploy[:user]).dir)
+  if ::File.exists?(deploy[:home])
     Chef::Log.info("********** The Second app's initial state is '#{node[:basercms_deploy][:plugins]}' **********")
     node[:basercms_deploy][:plugins].each do |plugin|
       if !::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin/#{plugin[:name]}")
