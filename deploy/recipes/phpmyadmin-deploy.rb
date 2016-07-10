@@ -5,6 +5,7 @@
 
 node[:deploy].each do |app_name, deploy|
 
+  Chef::Log.info("********** #{app_name}:#{deploy} **********")
   if app_name == "phpmyadmin"
     # Setting
     template "#{deploy[:deploy_to]}/config.inc.php" do
