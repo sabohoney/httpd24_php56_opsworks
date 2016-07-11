@@ -9,7 +9,11 @@ node[:deploy].each do |app_name, deploy|
     require 'aws-sdk'
     s3 = AWS::S3.new
     if s3.buckets[node[:basercms_deploy][:bucket_name]].exists?
-      isCreate = false;
+      if s3.buckets[node[:basercms_deploy][:bucket_name]].objects['index.php'].exists?
+        isCreate = false;
+      else
+        isCreate = true;
+      end
     else
       isCreate = true;
       s3.buckets.create(node[:basercms_deploy][:bucket_name])
