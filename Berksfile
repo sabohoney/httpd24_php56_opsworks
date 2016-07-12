@@ -17,3 +17,6 @@ cookbook 'git', '~> 4.6.0'
 
 # Build Essential
 cookbook 'build-essential', '3.2.0'
+
+# MySQL
+cookbook 'mysql', '~> 7.2.0'
