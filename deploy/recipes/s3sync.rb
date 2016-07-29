@@ -5,7 +5,7 @@
 
 node[:deploy].each do |app_name, deploy|
 
-  if app_name == "basercms"
+  if !deploy[:environment_variables][:sync].nil? && deploy[:environment_variables][:sync] == "on"
     require 'aws-sdk'
     s3 = AWS::S3.new
     if s3.buckets[node[:basercms_deploy][:bucket_name]].exists?
