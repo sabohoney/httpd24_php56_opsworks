@@ -14,9 +14,7 @@ node[:deploy].each do |app_name, deploy|
         owner deploy[:user]
         mode   '0644'
         variables({
-          :CORE => node[:basercms_deploy][:db_conf][:core],
-          :PLUGIN => node[:basercms_deploy][:db_conf][:plugin],
-          :TEST => node[:basercms_deploy][:db_conf][:test]
+          :APP_NAME => app_name
         })
       end
     end
