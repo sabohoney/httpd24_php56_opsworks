@@ -1,11 +1,11 @@
 <?php
-Configure::write('Security.salt', '<%= node[:environment_variables]['salt'] %>');
-Configure::write('Security.cipherSeed', '<%= node[:environment_variables]['cipherSeed'] %>');
+Configure::write('Security.salt', '<%= @deploy[:environment_variables]['salt'] %>');
+Configure::write('Security.cipherSeed', '<%= @deploy[:environment_variables]['cipherSeed'] %>');
 Configure::write('Cache.disable', false);
 Configure::write('Cache.check', true);
-<% if node[:environment_variables][:session] == 'default' then %>
+<% if @deploy[:environment_variables][:session] == 'default' then %>
 Configure::write('Session.cookie', 'NICOFARRE');
-<% elsif node[:environment_variables][:session] == 'database' then %>
+<% elsif @deploy[:environment_variables][:session] == 'database' then %>
 Configure::write('Session', [
     'defaults' => 'database',
     'cookie' => 'NICOFARRE',
@@ -16,9 +16,9 @@ Configure::write('Session', [
 ]);
 <% end %>
 Configure::write('BcEnv.siteUrl', 'http://<%= @deploy[:domains].first %>/');
-<% sslSiteUrl = node[:environment_variables]['ssl'] == 'on' ? 'https://' + @deploy[:domains].first + '/' : '' %>
+<% sslSiteUrl = @deploy[:environment_variables]['ssl'] == 'on' ? 'https://' + @deploy[:domains].first + '/' : '' %>
 Configure::write('BcEnv.sslUrl', '<%= sslSiteUrl %>');
-Configure::write('BcApp.adminSsl', <%= node[:environment_variables]['ssl'] == 'yes' ? true : false %>);
+Configure::write('BcApp.adminSsl', <%= @deploy[:environment_variables]['ssl'] == 'yes' ? true : false %>);
 Configure::write('BcApp.mobile', false);
 Configure::write('BcApp.smartphone', false);
 // Debug Mode
