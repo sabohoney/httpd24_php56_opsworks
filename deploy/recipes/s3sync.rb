@@ -5,18 +5,19 @@
 
 node[:deploy].each do |app_name, deploy|
 
-  if !deploy[:environment_variables][:sync].nil? && deploy[:environment_variables][:sync] == "on"
+  if !deploy[:environment_variables][:bucket_name].nil? && !deploy[:environment_variables][:bucket_name].empty?
     require 'aws-sdk'
     s3 = AWS::S3.new
-    if s3.buckets[node[:basercms_deploy][:bucket_name]].exists?
-      if s3.buckets[node[:basercms_deploy][:bucket_name]].objects['index.php'].exists?
+    bucket_name = deploy[:environment_variables][:bucket_name]
+    if s3.buckets[].exists?
+      if s3.buckets[bucket_name].objects['index.php'].exists?
         isCreate = false;
       else
         isCreate = true;
       end
     else
       isCreate = true;
-      s3.buckets.create(node[:basercms_deploy][:bucket_name])
+      s3.buckets.create(bucket_name)
     end
     include_recipe 'lsyncd'
     # lsyncd stop
@@ -55,13 +56,13 @@ node[:deploy].each do |app_name, deploy|
       gid = '48'#%x(id -g apache)
       execute "s3 Sync by goofys" do
         command <<-EOH
-          goofys #{node[:basercms_deploy][:bucket_name]} #{deploy[:home]}/s3sync -o allow_other,--uid=#{uid},--gid=#{gid}
+          goofys #{bucket_name} #{deploy[:home]}/s3sync -o allow_other,--uid=#{uid},--gid=#{gid}
           sleep 30s
         EOH
       end
       # fstab
       mount "#{deploy[:home]}/s3sync" do
-        device   "/opt/go/bin/goofys##{node[:basercms_deploy][:bucket_name]}"
+        device   "/opt/go/bin/goofys##{bucket_name}"
         pass     0
         dump     0
         fstype   'fuse'

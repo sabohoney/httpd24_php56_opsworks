@@ -10,7 +10,7 @@ node[:deploy].each do |app_name, deploy|
     Chef::Log.info("********** The First deploy::basercms-plugin **********")
     if ::File.exists?(deploy[:home])
       Chef::Log.info("********** The Second deploy::basercms-plugin **********")
-      if !node[:basercms_deploy][:plugin].nil?
+      if !node[:environment_variables][:plugin].nil?
         if ::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin")
           directory "#{deploy[:deploy_to]}/current/app/Plugin" do
             action :delete
@@ -23,7 +23,7 @@ node[:deploy].each do |app_name, deploy|
           ssh_key_data deploy[:scm][:ssh_key]
         end
         git "#{deploy[:deploy_to]}/current/app/Plugin" do
-          repo node[:basercms_deploy][:plugin]
+          repo node[:environment_variables][:plugin]
           revision 'master'
           user deploy[:user]
           group deploy[:group]
