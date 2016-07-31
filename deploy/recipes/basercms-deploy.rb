@@ -15,7 +15,9 @@ node[:deploy].each do |app_name, deploy|
       variables({
         :APP_NAME => app_name
       })
-      only_if deploy[:environment_variables][:db_conf] == 'create'
+      only_if do
+        deploy[:environment_variables][:db_conf] == 'create'
+      end
     end
   
     template "#{deploy[:deploy_to]}/current/app/Config/install.php" do
@@ -25,7 +27,9 @@ node[:deploy].each do |app_name, deploy|
       variables({
         :deploy => deploy
       })
-      only_if !deploy[:environment_variables][:install].nil? && deploy[:environment_variables][:install] == "create"
+      only_if do
+        !deploy[:environment_variables][:install].nil? && deploy[:environment_variables][:install] == "create"
+      end
     end
   
     # s3 Sync
