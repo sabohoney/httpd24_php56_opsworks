@@ -19,5 +19,13 @@ node[:deploy].each do |app_name, deploy|
       mode   '0644'
     end
   end
+  execute "phpMyAdmin Language Setup" do
+    cwd "#{deploy[:deploy_to]}/current"
+    command "scripts/generate-mo"
+  end
+  directory "#{deploy[:deploy_to]}/current/config" do
+    recursive true
+    action :delete
+  end
 
 end

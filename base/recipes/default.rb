@@ -12,6 +12,7 @@ package "bash-completion"
 package "vim-enhanced"
 package "gd"
 package "ImageMagick"
+package "fuse"
 
 #
 # Completion

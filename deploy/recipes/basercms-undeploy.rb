@@ -7,9 +7,6 @@ node[:deploy].each do |app_name, deploy|
 
   if !deploy[:environment_variables][:type].nil? && deploy[:environment_variables][:type] == "basercms"
     Chef::Log.info("********** The First deploy::basercms-undeploy **********")
-    mount "#{deploy[:home]}/s3sync" do
-      action :umount
-    end
     lsyncd_target 'from_s3' do
       action :delete
       notifies :stop, 'service[lsyncd]'
