@@ -21,7 +21,7 @@ node[:deploy].each do |app_name, deploy|
     end
     # Un Mount
     mount "#{deploy[:deploy_to]}/current/app/webroot" do
-      action :umount
+      action [:umount, :disable]
     end
     # Delete Default directory
     directory "#{deploy[:deploy_to]}/current/app/webroot" do
