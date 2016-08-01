@@ -19,11 +19,15 @@ node[:deploy].each do |app_name, deploy|
       isCreate = true;
       s3.buckets.create(bucket_name)
     end
-    # Un Mount
-    mount "#{deploy[:deploy_to]}/current/app/webroot" do
-      device   "/opt/go/bin/goofys##{bucket_name}"
-      fstype   'fuse'
-      action [:umount, :disable]
+    include_recipe 'lsyncd'
+    # lsyncd stop
+    lsyncd_target 'from_s3' do
+      action :delete
+      notifies :stop, 'service[lsyncd]'
+    end
+    lsyncd_target 'to_s3' do
+      action :delete
+      notifies :stop, 'service[lsyncd]'
     end
     # Delete Default directory
     directory "#{deploy[:deploy_to]}/current/app/webroot" do
@@ -36,33 +40,48 @@ node[:deploy].each do |app_name, deploy|
       action :create
       recursive true
     end
-    directory "#{deploy[:home]}/s3sync" do
-      recursive true
-      action :delete
+    if !::File.exists?("#{deploy[:home]}/s3sync")
+      directory "#{deploy[:home]}/s3sync" do
+        recursive true
+        action :delete
+      end
+      directory "#{deploy[:home]}/s3sync" do
+        user deploy[:user]
+        group deploy[:group]
+        action :create
+        recursive true
+      end
+      # Mount
+      uid = '4000'#%x(id -u deploy)
+      gid = '48'#%x(id -g apache)
+      execute "s3 Sync by goofys" do
+        command <<-EOH
+          goofys #{bucket_name} #{deploy[:home]}/s3sync -o allow_other,--uid=#{uid},--gid=#{gid}
+          sleep 30s
+        EOH
+      end
+      # fstab
+      mount "#{deploy[:home]}/s3sync" do
+        device   "/opt/go/bin/goofys##{bucket_name}"
+        pass     0
+        dump     0
+        fstype   'fuse'
+        options  "_netdev,allow_other,--uid=#{uid},--gid=#{gid}"
+        action   [:mount, :enable]
+      end
     end
-    directory "#{deploy[:home]}/s3sync" do
-      user deploy[:user]
-      group deploy[:group]
-      action :create
-      recursive true
+    # lsync
+    lsyncd_target 'from_s3' do
+      source "#{deploy[:home]}/s3sync"
+      target "#{deploy[:deploy_to]}/current/app/webroot"
+      rsync_opts ["-a"]
+      notifies :restart, 'service[lsyncd]', :delayed
     end
-    # Mount
-    uid = '4000'#%x(id -u deploy)
-    gid = '48'#%x(id -g apache)
-    execute "s3 Sync by goofys" do
-      command <<-EOH
-        goofys #{bucket_name} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=#{uid},--gid=#{gid}
-        sleep 30s
-      EOH
-    end
-    # fstab
-    mount "#{deploy[:deploy_to]}/current/app/webroot" do
-      device   "/opt/go/bin/goofys##{bucket_name}"
-      pass     0
-      dump     0
-      fstype   'fuse'
-      options  "_netdev,allow_other,--uid=#{uid},--gid=#{gid}"
-      action   [:mount, :enable]
+    lsyncd_target 'to_s3' do
+      source "#{deploy[:deploy_to]}/current/app/webroot"
+      target "#{deploy[:home]}/s3sync"
+      rsync_opts ["-a"]
+      notifies :restart, 'service[lsyncd]', :delayed
     end
     if isCreate == true
       execute "git checkout" do
