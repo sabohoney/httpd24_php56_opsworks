@@ -56,12 +56,12 @@ node[:deploy].each do |app_name, deploy|
       gid = '48'#%x(id -g apache)
       execute "s3 Sync by goofys" do
         command <<-EOH
-          goofys #{bucket_name} #{deploy[:home]}/s3sync -o allow_other,--uid=#{uid},--gid=#{gid}
+          goofys #{bucket_name} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=#{uid},--gid=#{gid}
           sleep 30s
         EOH
       end
       # fstab
-      mount "#{deploy[:home]}/s3sync" do
+      mount "#{deploy[:deploy_to]}/current/app/webroot" do
         device   "/opt/go/bin/goofys##{bucket_name}"
         pass     0
         dump     0
