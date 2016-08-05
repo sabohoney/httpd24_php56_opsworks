@@ -36,7 +36,7 @@ node[:deploy].each do |app_name, deploy|
       gid = '48'#%x(id -g apache)
       execute "s3 Sync by goofys" do
         command <<-EOH
-          goofys #{bucket_name} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=#{uid},--gid=#{gid},--use-content-type
+          goofys #{bucket_name} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=#{uid},--gid=#{gid}
           sleep 30s
         EOH
       end
