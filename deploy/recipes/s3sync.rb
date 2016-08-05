@@ -19,16 +19,6 @@ node[:deploy].each do |app_name, deploy|
       isCreate = true;
       s3.buckets.create(bucket_name)
     end
-    include_recipe 'lsyncd'
-    # lsyncd stop
-    lsyncd_target 'from_s3' do
-      action :delete
-      notifies :stop, 'service[lsyncd]'
-    end
-    lsyncd_target 'to_s3' do
-      action :delete
-      notifies :stop, 'service[lsyncd]'
-    end
     # Delete Default directory
     directory "#{deploy[:deploy_to]}/current/app/webroot" do
       recursive true
@@ -40,28 +30,18 @@ node[:deploy].each do |app_name, deploy|
       action :create
       recursive true
     end
-    if !::File.exists?("#{deploy[:home]}/s3sync")
-      directory "#{deploy[:home]}/s3sync" do
-        recursive true
-        action :delete
-      end
-      directory "#{deploy[:home]}/s3sync" do
-        user deploy[:user]
-        group deploy[:group]
-        action :create
-        recursive true
-      end
+    if !::File.exists?("#{deploy[:deploy_to]}/current/app/webroot/index.php")
       # Mount
       uid = '4000'#%x(id -u deploy)
       gid = '48'#%x(id -g apache)
       execute "s3 Sync by goofys" do
         command <<-EOH
-          goofys #{bucket_name} #{deploy[:home]}/s3sync -o allow_other,--uid=#{uid},--gid=#{gid}
+          goofys #{bucket_name} #{deploy[:deploy_to]}/current/app/webroot -o allow_other,--uid=#{uid},--gid=#{gid},--use-content-type
           sleep 30s
         EOH
       end
       # fstab
-      mount "#{deploy[:home]}/s3sync" do
+      mount "#{deploy[:deploy_to]}/current/app/webroot" do
         device   "/opt/go/bin/goofys##{bucket_name}"
         pass     0
         dump     0
@@ -69,19 +49,6 @@ node[:deploy].each do |app_name, deploy|
         options  "_netdev,allow_other,--uid=#{uid},--gid=#{gid}"
         action   [:mount, :enable]
       end
-    end
-    # lsync
-    lsyncd_target 'from_s3' do
-      source "#{deploy[:home]}/s3sync"
-      target "#{deploy[:deploy_to]}/current/app/webroot"
-      rsync_opts ["-a"]
-      notifies :restart, 'service[lsyncd]', :delayed
-    end
-    lsyncd_target 'to_s3' do
-      source "#{deploy[:deploy_to]}/current/app/webroot"
-      target "#{deploy[:home]}/s3sync"
-      rsync_opts ["-a"]
-      notifies :restart, 'service[lsyncd]', :delayed
     end
     if isCreate == true
       execute "git checkout" do
