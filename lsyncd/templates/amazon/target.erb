@@ -1,26 +1,4 @@
 -- Created by Chef; Using lsync 2.1 config sytax
-sync {
-    source      = "<%= @source %>",
-<% if @mode == 'rsync' -%>
-    default.<%= @mode %>,
-    delete      = "running",
-    <% if @host -%>
-    target      = "<% if @user %><%= @user %>@<% end %><%= @host %>:<%= @target %>",
-    <% else -%>
-    target      = "<%= @target %>",
-    <% end -%>
-<% elsif @mode == 'rsyncssh' -%>
-    default.<%= @mode %>,
-    targetdir   = "<%= @target %>",
-    host        = "<%= @host %>",
-<% elsif @mode == 's3' -%>
-    awscli_sync,
-    target      = "<%= @target %>",
-<% end -%>
-<%= "    rsync = {\n      _extra = #{@rsync_opts},\n    },\n" if @rsync_opts -%>
-<%= "    exclude     = #{@exclude},\n" if @exclude -%>
-<%= "    excludeFrom = \"#{@exclude_from}\",\n" if @exclude_from -%>
-}
 <% if @mode == 's3' -%>
 handleCreate = function(event)
   if event.isdir then
@@ -50,3 +28,25 @@ awscli_sync = {
   onDelete = handleDelete
 }
 <% end -%>
+sync {
+    source      = "<%= @source %>",
+<% if @mode == 'rsync' -%>
+    default.<%= @mode %>,
+    delete      = "running",
+    <% if @host -%>
+    target      = "<% if @user %><%= @user %>@<% end %><%= @host %>:<%= @target %>",
+    <% else -%>
+    target      = "<%= @target %>",
+    <% end -%>
+<% elsif @mode == 'rsyncssh' -%>
+    default.<%= @mode %>,
+    targetdir   = "<%= @target %>",
+    host        = "<%= @host %>",
+<% elsif @mode == 's3' -%>
+    awscli_sync,
+    target      = "<%= @target %>",
+<% end -%>
+<%= "    rsync = {\n      _extra = #{@rsync_opts},\n    },\n" if @rsync_opts -%>
+<%= "    exclude     = #{@exclude},\n" if @exclude -%>
+<%= "    excludeFrom = \"#{@exclude_from}\",\n" if @exclude_from -%>
+}

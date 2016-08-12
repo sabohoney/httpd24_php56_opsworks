@@ -15,6 +15,7 @@ depends "golang"
 depends "lsyncd"
 depends "git_ssh_wrapper"
 depends "composer"
+depends "nfs"
 
 recipe "deploy::php-deploy", "Deploy a PHP application"
 recipe "deploy::basercms-deploy", "Basic Configuration for BaserCMS"
