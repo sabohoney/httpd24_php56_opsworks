@@ -18,12 +18,12 @@ node[:deploy].each do |app_name, deploy|
     end
     # Mount
     Chef::Log.debug(node[:deploy])
-#     mount "#{deploy[:deploy_to]}/current/app/webroot" do
-#       device   "#{env[:nfs_host]}:#{node[:deploy][:NFS][:deploy_to]}/webroot"
-#       fstype   'nfs'
-#       options  "defaults"
-#       action   [:mount, :enable]
-#     end
+    mount "#{deploy[:deploy_to]}/current/app/webroot" do
+      device   "#{env[:nfs_host]}:/srv/www/nfs/current/webroot"
+      fstype   'nfs'
+      options  "defaults"
+      action   [:mount, :enable]
+    end
   end
 
 end
