@@ -8,7 +8,7 @@ node[:deploy].each do |app_name, deploy|
   env = deploy[:environment_variables]
   nfs_export "#{deploy[:deploy_to]}/current" do
     network '172.31.0.0/16'
-    writeable "rw" 
+    writeable true 
     sync true
     options ['no_root_squash']
   end
