@@ -12,5 +12,10 @@ node[:deploy].each do |application, deploy|
     path deploy[:deploy_to]
   end
 
+  opsworks_deploy do
+    deploy_data deploy
+    app application
+  end
+
 end
 
