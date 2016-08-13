@@ -22,4 +22,4 @@ cookbook 'build-essential', '3.2.0'
 cookbook 'mysql', '~> 7.2.0'
 
 # NFS
-cookbook 'nfs', '~> 2.2.10'
+cookbook 'nfs', '~> 2.0.0'
