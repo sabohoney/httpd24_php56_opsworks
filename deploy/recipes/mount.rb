@@ -18,7 +18,7 @@ node[:deploy].each do |app_name, deploy|
     end
     # Mount
     mount "#{deploy[:deploy_to]}/current/app/webroot" do
-      device   "#{env[:nfs_host]}:#{node[:deploy][:NFS][:deploy_to]}"
+      device   "#{env[:nfs_host]}:#{node[:deploy][:NFS][:deploy_to]}/webroot"
       fstype   'nfs'
       options  "defaults"
       action   [:mount, :enable]
