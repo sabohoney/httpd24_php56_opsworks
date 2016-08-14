@@ -17,7 +17,7 @@ node[:deploy].each do |app_name, deploy|
       source "#{deploy[:deploy_to]}/current/app/webroot"
       target "s3://#{bucket_name}"
       notifies :restart, 'service[lsyncd]', :delayed
-      only_if { s3.buckets[bucket_name].exists? && system("mount |grep #{env[:nfs_host]}" && mode.equal?("production")) }
+      only_if { s3.buckets[bucket_name].exists? && system("mount |grep #{env[:nfs_host]}") && mode.equal?("production") }
     end
     
     execute "AWS S3 Sync" do
