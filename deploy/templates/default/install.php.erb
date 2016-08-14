@@ -18,7 +18,7 @@ Configure::write('Session', [
 Configure::write('BcEnv.siteUrl', 'http://<%= @deploy[:domains].first %>/');
 <% sslSiteUrl = @deploy[:environment_variables]['ssl'] == 'on' ? 'https://' + @deploy[:domains].first + '/' : '' %>
 Configure::write('BcEnv.sslUrl', '<%= sslSiteUrl %>');
-Configure::write('BcApp.adminSsl', <%= @deploy[:environment_variables]['ssl'] == 'yes' ? true : false %>);
+Configure::write('BcApp.adminSsl', <%= @deploy[:environment_variables]['ssl'] == 'on' ? true : false %>);
 Configure::write('BcApp.mobile', false);
 Configure::write('BcApp.smartphone', false);
 // Debug Mode
