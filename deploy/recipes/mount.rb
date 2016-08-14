@@ -21,7 +21,7 @@ node[:deploy].each do |app_name, deploy|
       device   "#{env[:nfs_host]}:/srv/www/nfs/current/webroot"
       fstype   'nfs'
       options  "defaults"
-      action   [:mount, :enable]
+      action   [:remount, :enable]
     end
   end
 

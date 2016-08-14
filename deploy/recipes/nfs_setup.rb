@@ -6,19 +6,21 @@
 node[:deploy].each do |app_name, deploy|
 
   env = deploy[:environment_variables]
+  is_nfs = !env[:is_nfs].nil? ? "on" : "off"
   mntDir = "#{deploy[:deploy_to]}/current/webroot"
   directory mntDir do
     user deploy[:user]
     group deploy[:group]
     action :create
     recursive true
+    only_if { is_nfs.equal?("on") }
   end
   nfs_export mntDir do
     network '172.31.0.0/16'
     writeable true 
     sync true
     options ['no_root_squash']
-    only_if { File.exists?(mntDir) }
+    only_if { File.exists?(mntDir) && is_nfs.equal?("on") }
   end
   if !env[:bucket_name].nil? && !env[:bucket_name].empty?
     require 'aws-sdk'
