@@ -22,7 +22,7 @@ end
  
 awscli_sync = {
   maxProcesses = 10,
-  onStartup = "" -- "aws s3 sync --exact-timestamps --delete ^source ^target/",
+  onStartup = "", -- "aws s3 sync --exact-timestamps --delete ^source ^target/",
   onCreate = handleCreate,
   onModify = handleCreate,
   onDelete = handleDelete
