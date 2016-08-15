@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: deploy
-# Recipe:: s3sync
+# Recipe:: sync
 #
 
 node[:deploy].each do |app_name, deploy|
@@ -8,7 +8,29 @@ node[:deploy].each do |app_name, deploy|
   env = deploy[:environment_variables]
   mode = !env[:mode].nil? ? env[:mode] : "none"
   nfsHost = !env[:nfs_host].nil? ? env[:nfs_host] : "hogehogehoge"
-  Chef::Log.info("********** The First deploy::s3sync **********")
+  Chef::Log.info("********** The First deploy::sync **********")
+  if !env[:sync].nil? && env[:sync].equal?("on")
+    directory "#{deploy[:deploy_to]}/current/app/webroot" do
+      recursive true
+      action :delete
+    end
+    directory "#{deploy[:deploy_to]}/current/app/webroot" do
+      user deploy[:user]
+      action :create
+      recursive true
+    end
+    # Mount
+    mount "#{deploy[:deploy_to]}/current/app/webroot" do
+      device   "#{env[:nfs_host]}:/srv/www/nfs/current/webroot"
+      action   :umount
+    end
+    mount "#{deploy[:deploy_to]}/current/app/webroot" do
+      device   "#{env[:nfs_host]}:/srv/www/nfs/current/webroot"
+      fstype   'nfs'
+      options  "defaults"
+      action   [:mount, :enable]
+    end
+  end
   if !env[:bucket_name].nil? && !env[:bucket_name].empty?
     require 'aws-sdk'
     s3 = AWS::S3.new
