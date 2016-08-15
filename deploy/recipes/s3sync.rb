@@ -7,6 +7,8 @@ node[:deploy].each do |app_name, deploy|
 
   env = deploy[:environment_variables]
   mode = !env[:mode].nil? ? env[:mode] : "none"
+  Chef::Log.info("********** The First deploy::s3sync **********")
+  Chef::Log.info(env)
   if !env[:bucket_name].nil? && !env[:bucket_name].empty?
     require 'aws-sdk'
     s3 = AWS::S3.new
