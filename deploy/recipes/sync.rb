@@ -10,7 +10,7 @@ node[:deploy].each do |app_name, deploy|
   nfsHost = !env[:nfs_host].nil? ? env[:nfs_host] : "hogehogehoge"
   Chef::Log.info("********** The First deploy::sync **********")
   Chef::Log.info(deploy)
-#  if !env[:sync].nil? && env[:sync].equal?("on")
+  if !env[:sync].nil? && env[:sync] == 'on'
     directory "#{deploy[:deploy_to]}/current/app/webroot" do
       recursive true
       action :delete
@@ -31,7 +31,7 @@ node[:deploy].each do |app_name, deploy|
       options  "defaults"
       action   [:mount, :enable]
     end
-#  end
+  end
   if !env[:bucket_name].nil? && !env[:bucket_name].empty?
     require 'aws-sdk'
     s3 = AWS::S3.new
@@ -42,14 +42,14 @@ node[:deploy].each do |app_name, deploy|
       source "#{deploy[:deploy_to]}/current/app/webroot"
       target "s3://#{bucket_name}"
       notifies :restart, 'service[lsyncd]', :delayed
-      only_if { s3.buckets[bucket_name].exists? && system("mount |grep #{nfsHost}") }
+      only_if { s3.buckets[bucket_name].exists? && system("mount |grep #{nfsHost}") && env[:mode] == "production" }
     end
     
     execute "AWS S3 Sync" do
       command "aws s3 sync --exact-timestamps s3://#{bucket_name} #{deploy[:deploy_to]}/current/app/webroot"
       user deploy[:user]
       group deploy[:group]
-      only_if { s3.buckets[bucket_name].exists? && mode.equal?("staging") }
+      only_if { s3.buckets[bucket_name].exists? && env[:mode] == "staging" }
     end
   end
 
