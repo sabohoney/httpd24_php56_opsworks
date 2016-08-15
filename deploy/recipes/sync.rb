@@ -9,7 +9,7 @@ node[:deploy].each do |app_name, deploy|
   mode = !env[:mode].nil? ? env[:mode] : "none"
   nfsHost = !env[:nfs_host].nil? ? env[:nfs_host] : "hogehogehoge"
   Chef::Log.info("********** The First deploy::sync **********")
-  Chef::Log.info(node[:deploy][:app_name])
+  Chef::Log.info(deploy)
   if !env[:sync].nil? && env[:sync].equal?("on")
     directory "#{deploy[:deploy_to]}/current/app/webroot" do
       recursive true
