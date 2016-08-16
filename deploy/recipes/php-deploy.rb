@@ -23,7 +23,8 @@ node[:deploy].each do |application, deploy|
     app application
   end
 
-  node[:application][node[:mode]][:run_recipe].each do |recipe|
+  mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "develop"
+  node[:application][mode][:run_recipe].each do |recipe|
     include_recipe recipe
   end
 
