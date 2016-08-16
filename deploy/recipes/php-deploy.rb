@@ -22,5 +22,9 @@ node[:deploy].each do |application, deploy|
     deploy_data deploy
     app application
   end
-end
 
+  node[:application][node[:mode]][:run_recipe].each do |recipe|
+    include_recipe recipe
+  end
+
+end

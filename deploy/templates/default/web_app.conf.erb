@@ -89,7 +89,11 @@ LogFormat "%v:%p %{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{
     Options <%= [@params[:directory_options] || "FollowSymLinks" ].flatten.join " " %>
     AllowOverride <%= [@params[:allow_override] || "None" ].flatten.join " " %>
   <% if node['apache']['version'] == '2.4' -%>
+    <% if !node[@application_name][node[:mode]][:require_ip].nil? && !node[@application_name][node[:mode]][:request_ip].empty? -%>
+    <% node[@application_name][node[:mode]][:require_id].each do |ip| %><%= "Require ip #{ip}" %><% end %>
+    <% else -%>
     Require all granted
+    <% end -%>
   <% else -%>
     Order allow,deny
     Allow from all
