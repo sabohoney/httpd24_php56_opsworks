@@ -24,7 +24,7 @@ node[:deploy].each do |application, deploy|
   end
 
   mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
-  node[:application][mode][:run_recipe].each do |recipe|
+  node[:app][application][mode][:run_recipe].each do |recipe|
     include_recipe recipe
   end
 

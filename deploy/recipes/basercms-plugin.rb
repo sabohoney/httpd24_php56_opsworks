@@ -5,7 +5,7 @@
 #
 app_name = 'basercms'
 deploy = node[:deploy][app_name]
-mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "develop"
+mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
 if node[:app][app_name][mode].nil? || node[:app][app_name][mode].empty?
   next
 end
