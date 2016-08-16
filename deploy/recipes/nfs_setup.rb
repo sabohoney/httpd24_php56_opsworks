@@ -6,11 +6,11 @@
 
 app_name = 'nfs'
 deploy = node[:deploy][app_name]
-
-if node[:nfs][node[:mode]].nil? || node[:nfs][node[:mode]].empty?
+mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "develop"
+if node[:app][app_name][mode].nil? || node[:app][app_name][mode].empty?
   next
 end
-custom = node[:nfs][node[:mode]]
+custom = node[:app][app_name][mode]
 
 mntDir = "#{deploy[:deploy_to]}/current/webroot"
 directory mntDir do

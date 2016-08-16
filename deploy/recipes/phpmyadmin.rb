@@ -4,13 +4,13 @@
 # Application phpmyadmin
 #
 
-app_name = 'basercms'
+app_name = 'phpmyadmin'
 deploy = node[:deploy][app_name]
-
-if node[:phpmyadmin][node[:mode]].nil? || node[:phpmyadmin][node[:mode]].empty?
+mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "develop"
+if node[:app][app_name][mode].nil? || node[:app][app_name][mode].empty?
   next
 end
-custom = node[:phpmyadmin][node[:mode]]
+custom = node[:app][app_name][mode]
 
 # Install
 composer_project "#{deploy[:deploy_to]}/current/" do
