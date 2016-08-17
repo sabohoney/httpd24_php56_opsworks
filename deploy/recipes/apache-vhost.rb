@@ -8,6 +8,8 @@ node[:deploy].each do |application, deploy|
     next
   end
 
+  mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
+  require_ip = !node[:app][application][mode][:require_ip].nil? && !node[:app][application][mode][:require_ip].empty? ? node[:app][application][mode][:require_ip] : Array.new
   web_app deploy[:application] do
     docroot deploy[:absolute_document_root]
     server_name deploy[:domains].first
@@ -18,6 +20,9 @@ node[:deploy].each do |application, deploy|
     ssl_certificate_ca deploy[:ssl_certificate_ca]
     allow_override "All"
     enable true
+    variables({
+      :require_ip => require_ip
+    })
   end
 
   template "#{node[:apache][:dir]}/ssl/#{deploy[:domains].first}.crt" do
