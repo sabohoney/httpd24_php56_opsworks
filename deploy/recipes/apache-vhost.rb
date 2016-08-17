@@ -8,6 +8,8 @@ node[:deploy].each do |application, deploy|
     next
   end
 
+  mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
+  require_ip = !node[:app][application_name][mode][:require_ip].nil? && !node[:app][application_name][mode][:require_ip].empty? ? node[:app][application_name][mode][:require_ip] : Array.new
   web_app deploy[:application] do
     docroot deploy[:absolute_document_root]
     server_name deploy[:domains].first
@@ -19,7 +21,7 @@ node[:deploy].each do |application, deploy|
     allow_override "All"
     enable true
     variables({
-      :MODE => !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
+      :require_ip => require_ip
     })
   end
 
