@@ -18,6 +18,9 @@ node[:deploy].each do |application, deploy|
     ssl_certificate_ca deploy[:ssl_certificate_ca]
     allow_override "All"
     enable true
+    variables({
+      :MODE => !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
+    })
   end
 
   template "#{node[:apache][:dir]}/ssl/#{deploy[:domains].first}.crt" do
