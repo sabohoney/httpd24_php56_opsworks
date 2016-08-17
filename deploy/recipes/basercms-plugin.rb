@@ -10,7 +10,7 @@ if !node[:app][app_name][mode].nil? && !node[:app][app_name][mode].empty?
   custom = node[:app][app_name][mode]
   
   Chef::Log.info("********** The First deploy::basercms-plugin **********")
-  if !::File.exists?(deploy[:home])
+  if ::File.exists?(deploy[:home])
     opsworks_deploy_user do
       deploy_data deploy
     end
