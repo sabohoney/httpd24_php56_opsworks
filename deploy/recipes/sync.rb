@@ -5,7 +5,7 @@
 app_name = 'basercms'
 deploy = node[:deploy][app_name]
 mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
-if node[:app][app_name][mode].nil? || node[:app][app_name][mode].empty?
+if !node[:app][app_name][mode].nil? && !node[:app][app_name][mode].empty?
   custom = node[:app][app_name][mode]
   
   nfsHost = !custom[:nfs_host].nil? ? custom[:nfs_host] : "hogehogehoge"
