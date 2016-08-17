@@ -9,7 +9,7 @@ node[:deploy].each do |application, deploy|
   end
 
   mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
-  require_ip = !node[:app][application_name][mode][:require_ip].nil? && !node[:app][application_name][mode][:require_ip].empty? ? node[:app][application_name][mode][:require_ip] : Array.new
+  require_ip = !node[:app][application][mode][:require_ip].nil? && !node[:app][application][mode][:require_ip].empty? ? node[:app][application][mode][:require_ip] : Array.new
   web_app deploy[:application] do
     docroot deploy[:absolute_document_root]
     server_name deploy[:domains].first
