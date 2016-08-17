@@ -18,4 +18,7 @@ depends "composer"
 depends "nfs"
 
 recipe "deploy::php-deploy", "Deploy a PHP application"
-recipe "deploy::basercms-deploy", "Basic Configuration for BaserCMS"
+recipe "deploy::basercms", "Basic Configuration for BaserCMS"
+recipe "deploy::basercms-plugin", "Plugin Configuration for BaserCMS"
+recipe "deploy::sync", "Synchronism Configuration"
+recipe "deploy::phpmyadmin", "Deploy a phpMyAdmin application"
