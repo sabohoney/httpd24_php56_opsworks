@@ -10,8 +10,8 @@ if !node[:app][app_name][mode].nil? && !node[:app][app_name][mode].empty?
   custom = node[:app][app_name][mode]
   
   Chef::Log.info("********** The First deploy::basercms-plugin **********")
-  if ::File.exists?(deploy[:home])
-    Chef::Log.info("********** The Second deploy::basercms-plugin **********")
+#  if ::File.exists?(deploy[:home])
+    Chef::Log.info(system("ls -al /home/"))
     if !custom[:plugin].nil?
       if ::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin")
         directory "#{deploy[:deploy_to]}/current/app/Plugin" do
@@ -33,6 +33,6 @@ if !node[:app][app_name][mode].nil? && !node[:app][app_name][mode].empty?
         ssh_wrapper "#{Etc.getpwnam(deploy[:user]).dir}/.ssh/wrappers/#{app_name}_deploy_wrapper.sh"
       end
     end
-  end
+#  end
   Chef::Log.info("********** The Third deploy::basercms-plugin **********")
 end
