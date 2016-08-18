@@ -15,7 +15,7 @@ if !node[:app][app_name][mode].nil? && !node[:app][app_name][mode].empty?
   include_recipe 'deploy::cms'
   
   # Plugin
-  include_recipe 'deploy::basercms-plugin'
+  #include_recipe 'deploy::basercms-plugin'
   
   # Sync
   include_recipe 'deploy::sync'
