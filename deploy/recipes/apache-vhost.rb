@@ -8,6 +8,16 @@ node[:deploy].each do |application, deploy|
     next
   end
 
+  # Any Virtual Host Access Denied
+  web_app deploy[:application] do
+    docroot '/tmp'
+    server_name 'any'
+    unless deploy[:domains][1, deploy[:domains].size].empty?
+      server_aliases deploy[:domains][1, deploy[:domains].size]
+    end
+    enable true
+  end
+
   mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
   require_ip = !node[:app][application][mode][:require_ip].nil? && !node[:app][application][mode][:require_ip].empty? ? node[:app][application][mode][:require_ip] : Array.new
   web_app deploy[:application] do
