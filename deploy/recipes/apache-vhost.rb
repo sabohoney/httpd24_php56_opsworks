@@ -8,15 +8,20 @@ node[:deploy].each do |application, deploy|
     next
   end
 
-  # Any Virtual Host Access Denied
-  web_app deploy[:application] do
-    docroot '/tmp'
-    server_name 'any'
-    enable true
-  end
-
+  # IP Address
   mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
   require_ip = !node[:app][application][mode][:require_ip].nil? && !node[:app][application][mode][:require_ip].empty? ? node[:app][application][mode][:require_ip] : Array.new
+  # Any Virtual Host Access Denied
+  web_app 'any' do
+    docroot '/tmp'
+    server_name 'any'
+    template 'web_any.conf.erb'
+    enable true
+    variables({
+      :require_ip => require_ip
+    })
+  end
+
   web_app deploy[:application] do
     docroot deploy[:absolute_document_root]
     server_name deploy[:domains].first
