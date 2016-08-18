@@ -21,14 +21,22 @@ if !node[:app][app_name][mode].nil? && !node[:app][app_name][mode].empty?
         recursive true
       end
     end
+    file "#{home}/.ssh/id_rsa" do
+      mode "0600"
+      user user
+      group group
+      content deploy[:scm][:ssh_key]
+      only_if { !::File.exists?("#{home}/.ssh/id_rsa") }
+    end
     git_ssh_wrapper app_name do
       owner user
       group group
       ssh_key_data deploy[:scm][:ssh_key]
     end
+    brunch = mode == 'production' ? 'master' : 'develop'
     git "#{deploy[:deploy_to]}/current/app/Plugin" do
       repo custom[:plugin]
-      revision 'master'
+      revision brunch
       user user
       group group
       action :checkout
