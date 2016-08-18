@@ -18,6 +18,7 @@ node[:deploy].each do |application, deploy|
     path deploy[:deploy_to]
   end
 
+  deploy[:enable_submodules] = true
   opsworks_deploy do
     deploy_data deploy
     app application
