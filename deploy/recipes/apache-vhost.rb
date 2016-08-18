@@ -12,9 +12,6 @@ node[:deploy].each do |application, deploy|
   web_app deploy[:application] do
     docroot '/tmp'
     server_name 'any'
-    unless deploy[:domains][1, deploy[:domains].size].empty?
-      server_aliases deploy[:domains][1, deploy[:domains].size]
-    end
     enable true
   end
 
