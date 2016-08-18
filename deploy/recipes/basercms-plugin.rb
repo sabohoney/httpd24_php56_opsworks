@@ -10,11 +10,9 @@ if !node[:app][app_name][mode].nil? && !node[:app][app_name][mode].empty?
   custom = node[:app][app_name][mode]
   
   Chef::Log.info("********** The First deploy::basercms-plugin **********")
-  if !::File.exists?(deploy[:home])
-    opsworks_deploy_user do
-      deploy_data deploy
-    end
-  end
+  user = File.exists?(deploy[:home]) ? deploy[:user] : 'ec2-user'
+  group = File.exists?(deploy[:home]) ? deploy[:group] : 'ec2-user'
+  home = File.exists?(deploy[:home]) ? deploy[:home] : Etc.getpwnam('ec2-user').dir
   Chef::Log.info("********** The Second deploy::basercms-plugin **********")
   if !custom[:plugin].nil?
     if ::File.exists?("#{deploy[:deploy_to]}/current/app/Plugin")
@@ -24,17 +22,17 @@ if !node[:app][app_name][mode].nil? && !node[:app][app_name][mode].empty?
       end
     end
     git_ssh_wrapper app_name do
-      owner deploy[:user]
-      group deploy[:group]
+      owner user
+      group group
       ssh_key_data deploy[:scm][:ssh_key]
     end
     git "#{deploy[:deploy_to]}/current/app/Plugin" do
       repo custom[:plugin]
       revision 'master'
-      user deploy[:user]
-      group deploy[:group]
+      user user
+      group group
       action :checkout
-      ssh_wrapper "#{Etc.getpwnam(deploy[:user]).dir}/.ssh/wrappers/#{app_name}_deploy_wrapper.sh"
+      ssh_wrapper "#{Etc.getpwnam(user).dir}/.ssh/wrappers/#{app_name}_deploy_wrapper.sh"
     end
   end
   Chef::Log.info("********** The Third deploy::basercms-plugin **********")
