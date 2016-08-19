@@ -14,7 +14,7 @@ LogFormat "%v:%p %{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{
     <% if !@params[:variables][:require_ip].empty? -%>
     <RequireAny>
       Require env healthcheck
-      <% @params[:variables][:require_ip].each do |ip| %><%= "Require ip #{ip}" %><% end %>
+      <% @params[:variables][:require_ip].each do |ip| %>Require ip <%= ip %><% end %>
     </RequireAny>
     <% else -%>
     <RequireAny>
@@ -26,7 +26,7 @@ LogFormat "%v:%p %{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{
     <% if !@params[:variables][:require_ip].empty? -%>
     Order deny,allow
     Allow from env=healthcheck
-    <% @params[:variables][:require_ip].each do |ip| %><%= "Allow from #{ip}" %><% end %>
+    <% @params[:variables][:require_ip].each do |ip| %>Allow from <%= ip %><% end %>
     <% else -%>
     Order deny,allow
     Allow from env=healthcheck
@@ -111,7 +111,7 @@ LogFormat "%v:%p %{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{
     <% if !@params[:variables][:require_ip].empty? -%>
     <RequireAny>
       Require env healthcheck
-      <% @params[:variables][:require_ip].each do |ip| %><%= "Require ip #{ip}" %><% end %>
+      <% @params[:variables][:require_ip].each do |ip| %>Require ip <%= ip %><% end %>
     </RequireAny>
     <% else -%>
     <RequireAny>
@@ -123,7 +123,7 @@ LogFormat "%v:%p %{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{
     <% if !@params[:variables][:require_ip].empty? -%>
     Order deny,allow
     Allow from env=healthcheck
-    <% @params[:variables][:require_ip].each do |ip| %><%= "Allow from #{ip}" %><% end %>
+    <% @params[:variables][:require_ip].each do |ip| %>Allow from <%= ip %><% end %>
     <% else -%>
     Order deny,allow
     Allow from env=healthcheck
