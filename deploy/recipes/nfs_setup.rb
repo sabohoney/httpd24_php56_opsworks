@@ -24,7 +24,7 @@ node[:deploy].each do |application, deploy|
       options ['no_root_squash']
       only_if { File.exists?(mntDir) && icustom[:is_setup] }
     end
-    if !custom[:bucket_name].nil? && !custom[:bucket_name].empty? && 
+    if !custom[:bucket_name].nil? && !custom[:bucket_name].empty?
       require 'aws-sdk'
       s3 = AWS::S3.new
       bucket_name = custom[:bucket_name]
