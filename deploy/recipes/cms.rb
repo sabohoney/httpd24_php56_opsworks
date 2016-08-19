@@ -16,7 +16,7 @@ node[:deploy].each do |application, deploy|
       owner deploy[:user]
       mode   '0644'
       variables({
-        :APP_NAME => app_name
+        :APP_NAME => deploy[:application]
       })
       only_if do
         !custom[:db_conf].nil? && custom[:db_conf] == 'create'
