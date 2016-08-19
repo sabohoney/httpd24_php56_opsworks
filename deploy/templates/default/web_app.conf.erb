@@ -11,28 +11,32 @@ LogFormat "%v:%p %{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{
     Options <%= [@params[:directory_options] || "FollowSymLinks" ].flatten.join " " %>
     AllowOverride <%= [@params[:allow_override] || "None" ].flatten.join " " %>
   <% if node['apache']['version'] == '2.4' -%>
-    <% if !@params[:variables][:require_ip].empty? %>
+    <% if !@params[:variables][:require_ip].empty? -%>
     <RequireAny>
       Require env healthcheck
-      <% @params[:variables][:require_ip].each do |ip| %>Require ip <%= ip %><% end %>
+      <% @params[:variables][:require_ip].each do |ip| %>
+      Require ip <%= ip %>
+      <% end %>
     </RequireAny>
-    <% else %>
+    <% else -%>
     <RequireAny>
       Require env healthcheck
       Require env for_elb
     </RequireAny>
-    <% end %>
-  <% else %>
-    <% if !@params[:variables][:require_ip].empty? %>
+    <% end -%>
+  <% else -%>
+    <% if !@params[:variables][:require_ip].empty? -%>
     Order deny,allow
     Allow from env=healthcheck
-    <% @params[:variables][:require_ip].each do |ip| %>Allow from <%= ip %><% end %>
-    <% else %>
+    <% @params[:variables][:require_ip].each do |ip| %>
+    Allow from <%= ip %>
+    <% end %>
+    <% else -%>
     Order deny,allow
     Allow from env=healthcheck
     Allow from env=for_elb
-    <% end %>
-  <% end %>
+    <% end -%>
+  <% end -%>
   </Directory>
 
   <Directory ~ "\.svn">
@@ -107,29 +111,33 @@ LogFormat "%v:%p %{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{
   <Directory <%= @params[:docroot] %>>
     Options <%= [@params[:directory_options] || "FollowSymLinks" ].flatten.join " " %>
     AllowOverride <%= [@params[:allow_override] || "None" ].flatten.join " " %>
-  <% if node['apache']['version'] == '2.4' %>
-    <% if !@params[:variables][:require_ip].empty? %>
+  <% if node['apache']['version'] == '2.4' -%>
+    <% if !@params[:variables][:require_ip].empty? -%>
     <RequireAny>
       Require env healthcheck
-      <% @params[:variables][:require_ip].each do |ip| %>Require ip <%= ip %><% end %>
+      <% @params[:variables][:require_ip].each do |ip| %>
+      Require ip <%= ip %>
+      <% end %>
     </RequireAny>
-    <% else %>
+    <% else -%>
     <RequireAny>
       Require env healthcheck
       Require env for_elb
     </RequireAny>
-    <% end %>
-  <% else %>
-    <% if !@params[:variables][:require_ip].empty? %>
+    <% end -%>
+  <% else -%>
+    <% if !@params[:variables][:require_ip].empty? -%>
     Order deny,allow
     Allow from env=healthcheck
-    <% @params[:variables][:require_ip].each do |ip| %>Allow from <%= ip %><% end %>
-    <% else %>
+    <% @params[:variables][:require_ip].each do |ip| %>
+    Allow from <%= ip %>
+    <% end %>
+    <% else -%>
     Order deny,allow
     Allow from env=healthcheck
     Allow from env=for_elb
-    <% end %>
-  <% end %>
+    <% end -%>
+  <% end -%>
   </Directory>
 
   <Directory ~ "\.svn">
