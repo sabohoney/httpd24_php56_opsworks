@@ -30,6 +30,7 @@ node[:deploy].each do |application, deploy|
         fstype   'nfs'
         options  "defaults"
         action   [:mount, :enable]
+        only_if { File.exists?("#{deploy[:deploy_to]}/current/app/webroot") }
       end
     end
     if !custom[:bucket_name].nil? && !custom[:bucket_name].empty?
