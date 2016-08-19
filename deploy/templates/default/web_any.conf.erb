@@ -12,14 +12,18 @@ LogFormat "%v:%p %{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{
     AllowOverride <%= [@params[:allow_override] || "None" ].flatten.join " " %>
   <% if node['apache']['version'] == '2.4' %>
     <% if !@params[:variables][:require_ip].empty? %>
-    <% @params[:variables][:require_ip].each do |ip| %><%= "Require ip #{ip}" %><% end %>
+    <% @params[:variables][:require_ip].each do |ip| %>
+    Require ip <%= ip %>
+    <% end %>
     <% else %>
     Require all denied
     <% end %>
   <% else %>
     <% if !@params[:variables][:require_ip].empty? %>
     Order deny,allow
-    <% @params[:variables][:require_ip].each do |ip| %><%= "Allow from #{ip}" %><% end %>
+    <% @params[:variables][:require_ip].each do |ip| %>
+    Allow from <%= ip %>
+    <% end %>
     <% else %>
     Order allow,deny
     Deny from all
