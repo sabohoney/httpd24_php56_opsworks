@@ -9,8 +9,7 @@ node[:deploy].each do |application, deploy|
   end
 
   # IP Address
-  mode = !node[:mode].nil? && !node[:mode].empty? ? node[:mode] : "production"
-  require_ip = !node[:app][application][mode][:require_ip].nil? && !node[:app][application][mode][:require_ip].empty? ? node[:app][application][mode][:require_ip] : Array.new
+  require_ip = !node[:app][application][:require_ip].nil? && !node[:app][application][:require_ip].empty? ? node[:app][application][:require_ip] : Array.new
   # Any Virtual Host Access Denied
   web_app 'any' do
     docroot '/tmp'
