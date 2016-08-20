@@ -26,12 +26,13 @@ node[:deploy].each do |application, deploy|
       network '172.31.0.0/16'
       writeable true 
       sync true
+      notifies :run, "execute[exportfs]"
       options ['no_root_squash']
       only_if { File.exists?(mntDir) && custom[:is_setup] }
     end
-    execute "NFS Setup" do
+    execute "exportfs" do
       command "exportfs -ra"
-      notifies resources(:nfs_export => mntDir)
+      action :nothing
     end
     if !custom[:bucket_name].nil? && !custom[:bucket_name].empty?
       require 'aws-sdk'
