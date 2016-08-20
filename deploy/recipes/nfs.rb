@@ -17,6 +17,7 @@ node[:deploy].each do |application, deploy|
     app application
   end
 
+  include_recipe "deploy::php-undeploy"
 #   node[:app][deploy[:application]][:run_recipe].each do |recipe|
 #     include_recipe recipe
 #   end
