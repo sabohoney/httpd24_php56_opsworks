@@ -29,6 +29,10 @@ node[:deploy].each do |application, deploy|
       options ['no_root_squash']
       only_if { File.exists?(mntDir) && custom[:is_setup] }
     end
+    execute "NFS Setup" do
+      command "exportfs -ra"
+      notifies resources(:nfs_export => mntDir)
+    end
     if !custom[:bucket_name].nil? && !custom[:bucket_name].empty?
       require 'aws-sdk'
       s3 = AWS::S3.new
