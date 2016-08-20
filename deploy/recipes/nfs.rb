@@ -17,9 +17,9 @@ node[:deploy].each do |application, deploy|
     app application
   end
 
-#   node[:app][deploy[:application]][:run_recipe].each do |recipe|
-#     include_recipe recipe
-#   end
+  node[:app][deploy[:application]][:run_recipe].each do |recipe|
+    include_recipe recipe
+  end
 
 end
 
