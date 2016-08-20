@@ -1,13 +1,15 @@
 #
 # Cookbook Name:: deploy
-# Recipe:: basercms-deploy
+# Recipe:: undeploy
 #
 
-node[:deploy].each do |app_name, deploy|
+node[:deploy].each do |application, deploy|
 
-  if !deploy[:environment_variables][:type].nil? && deploy[:environment_variables][:type] == "basercms"
-    Chef::Log.info("********** The First deploy::basercms-undeploy **********")
-    Chef::Log.info("********** The Second deploy::basercms-undeploy **********")
+  Chef::Log.info("********** The First deploy::undeploy **********")
+  directory "#{deploy[:deploy_to]}" do
+    recursive true
+    action :delete
   end
+  Chef::Log.info("********** The Second deploy::undeploy **********")
 
 end
