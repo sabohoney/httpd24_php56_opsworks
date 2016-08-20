@@ -6,7 +6,12 @@
 
 node[:deploy].each do |application, deploy|
 
-  if node[:app][deploy[:application]].nil? || node[:app][deploy[:application]].empty?
+  if deploy[:application_type] != 'other' && !node[:opsworks][:instance][:layers].include?('nfs')
+    Chef::Log.debug("Skipping deploy::nfs_setup application #{application} as it is not an NFS app")
+    next
+  end
+
+  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty?
     custom = node[:app][deploy[:application]]
     
     mntDir = "#{deploy[:deploy_to]}/current/webroot"
@@ -22,7 +27,7 @@ node[:deploy].each do |application, deploy|
       writeable true 
       sync true
       options ['no_root_squash']
-      only_if { File.exists?(mntDir) && icustom[:is_setup] }
+      only_if { File.exists?(mntDir) && custom[:is_setup] }
     end
     if !custom[:bucket_name].nil? && !custom[:bucket_name].empty?
       require 'aws-sdk'
