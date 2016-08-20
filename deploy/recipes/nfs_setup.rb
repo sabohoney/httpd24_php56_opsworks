@@ -6,9 +6,6 @@
 
 node[:deploy].each do |application, deploy|
 
-    Chef::Log.debug("********* nfs_setup *********")
-    Chef::Log.debug(node[:app])
-    Chef::Log.debug(deploy)
   if node[:app][deploy[:application]].nil? || node[:app][deploy[:application]].empty?
     custom = node[:app][deploy[:application]]
     

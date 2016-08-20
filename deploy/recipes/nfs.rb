@@ -17,6 +17,8 @@ node[:deploy].each do |application, deploy|
     app application
   end
 
+    Chef::Log.debug("****** deploy nfs ******")
+    Chef::Log.debug(node[:app])
   node[:app][deploy[:application]][:run_recipe].each do |recipe|
     include_recipe recipe
   end
