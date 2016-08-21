@@ -12,20 +12,18 @@ node[:deploy].each do |application, deploy|
 
   if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty?
     custom = node[:app][deploy[:application]]
-
-    # Webroot directry is Re-create.
-    directory "#{deploy[:deploy_to]}/current/app/webroot" do
-      recursive true
-      action :delete
-    end
-    directory "#{deploy[:deploy_to]}/current/app/webroot" do
-      user deploy[:user]
-      action :create
-      recursive true
-    end
     
     nfsHost = !custom[:nfs_host].nil? ? custom[:nfs_host] : "hogehogehoge"
     if !custom[:sync].nil? && custom[:sync] == 'on'
+      directory "#{deploy[:deploy_to]}/current/app/webroot" do
+        recursive true
+        action :delete
+      end
+      directory "#{deploy[:deploy_to]}/current/app/webroot" do
+        user deploy[:user]
+        action :create
+        recursive true
+      end
       # Mount
       mount "#{deploy[:deploy_to]}/current/app/webroot" do
         device   "#{nfsHost}:/srv/www/nfs/current/webroot"
