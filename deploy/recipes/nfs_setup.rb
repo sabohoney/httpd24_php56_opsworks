@@ -45,5 +45,14 @@ node[:deploy].each do |application, deploy|
         only_if { s3.buckets[bucket_name].exists? && s3.buckets[bucket_name].objects['index.php'].exists? && File.exists?(mntDir) }
       end
     end
+    cookbook_file "#{Etc.getpwnam(deploy[:user]).dir}/custom_metrics.sh" do
+      mode '700'
+      notifies :create, "cron[custom_metrics]"
+    end
+    cron "custom_metrics" do
+      command "#{Etc.getpwnam(deploy[:user]).dir}/custom_metrics.sh"
+      minute "*/5"
+      action :nothing
+    end
   end
 end
