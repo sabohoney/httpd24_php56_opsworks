@@ -26,13 +26,13 @@ node[:deploy].each do |application, deploy|
       network '172.31.0.0/16'
       writeable true 
       sync true
-#      notifies :run, "execute[exportfs]"
+      notifies :run, "execute[exportfs]"
       options ['no_root_squash']
       only_if { File.exists?(mntDir) && custom[:is_setup] }
     end
     execute "exportfs" do
       command "exportfs -ra"
-#      action :nothing
+      action :nothing
     end
     if !custom[:bucket_name].nil? && !custom[:bucket_name].empty?
       require 'aws-sdk'
@@ -45,12 +45,12 @@ node[:deploy].each do |application, deploy|
         only_if { s3.buckets[bucket_name].exists? && s3.buckets[bucket_name].objects['index.php'].exists? && File.exists?(mntDir) }
       end
     end
-    cookbook_file "#{Etc.getpwnam(deploy[:user]).dir}/custom_metrics.sh" do
+    cookbook_file "/root/custom_metrics.sh" do
       mode '700'
       notifies :create, "cron[custom_metrics]"
     end
     cron "custom_metrics" do
-      command "#{Etc.getpwnam(deploy[:user]).dir}/custom_metrics.sh"
+      command "root/custom_metrics.sh"
       minute "*/5"
       action :nothing
     end
