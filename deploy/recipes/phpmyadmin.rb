@@ -11,7 +11,7 @@ node[:deploy].each do |application, deploy|
     next
   end
 
-  if node[:app][deploy[:application]].nil? || node[:app][deploy[:application]].empty?
+  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty?
     custom = node[:app][deploy[:application]]
     
     # Install
