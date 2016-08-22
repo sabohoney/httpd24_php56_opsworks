@@ -1,13 +1,13 @@
 #
 # Cookbook Name:: deploy
-# Recipe:: basercms-deploy
+# Recipe:: basercms
 # Appplication basercms
 #
 
 node[:deploy].each do |application, deploy|
 
-  if deploy[:application_type] != 'php' && !node[:opsworks][:instance][:layers].include?('cms')
-    Chef::Log.debug("Skipping deploy::php application #{application} as it is not an PHP app")
+  if deploy[:application_type] != 'php' || !node[:opsworks][:instance][:layers].include?('cms')
+    Chef::Log.debug("Skipping deploy::basercms application #{application} as it is not an PHP app")
     next
   end
 

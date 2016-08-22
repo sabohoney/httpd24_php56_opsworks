@@ -4,14 +4,16 @@
 # Application nfs
 #
 
+include_recipe 'deploy::nfs_setup'
+
 node[:deploy].each do |application, deploy|
 
-  if deploy[:application_type] != 'other' && !node[:opsworks][:instance][:layers].include?('nfs')
+  if deploy[:application_type] != 'other' || !node[:opsworks][:instance][:layers].include?('nfs')
     Chef::Log.debug("Skipping deploy::nfs_setup application #{application} as it is not an NFS app")
     next
   end
 
-  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty? && deploy[:application] == node[:app][deploy[:application]][:name]
+  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty? && node[:app][deploy[:application]][:run_recipe].include?(recipe_name)
     custom = node[:app][deploy[:application]]
     
     mntDir = "#{deploy[:deploy_to]}/current/webroot"

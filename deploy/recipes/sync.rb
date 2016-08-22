@@ -3,14 +3,16 @@
 # Recipe:: sync
 #
 
+recipe_name = 'deploy::sync'
+
 node[:deploy].each do |application, deploy|
 
-  if deploy[:application_type] != 'php' && !node[:opsworks][:instance][:layers].include?('cms')
-    Chef::Log.debug("Skipping deploy::php application #{application} as it is not an PHP app")
+  if deploy[:application_type] != 'php' || !node[:opsworks][:instance][:layers].include?('cms')
+    Chef::Log.debug("Skipping deploy::sync application #{application} as it is not an PHP app")
     next
   end
 
-  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty? && deploy[:application] == node[:app][deploy[:application]][:name]
+  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty? && node[:app][deploy[:application]][:run_recipe].include?(recipe_name)
     custom = node[:app][deploy[:application]]
 
     # Webroot directry is Re-create.
