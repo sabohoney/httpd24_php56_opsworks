@@ -34,7 +34,7 @@ node[:deploy].each do |application, deploy|
       owner deploy[:user]
       mode   '0644'
       variables({
-        :deploy => deploy
+        :custom => custom
       })
       only_if do
         !custom[:install].nil? && custom[:install] == "create" && File.exists?(configDir)
