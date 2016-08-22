@@ -19,11 +19,13 @@ node[:deploy].each do |application, deploy|
     directory "#{deploy[:deploy_to]}/current/app/webroot" do
       recursive true
       action :delete
+      only_if { File.exists?("#{deploy[:deploy_to]}/current/app/webroot") }
     end
     directory "#{deploy[:deploy_to]}/current/app/webroot" do
       user deploy[:user]
       action :create
       recursive true
+      only_if { File.exists?("#{deploy[:deploy_to]}/current/") }
     end
     
     nfsHost = !custom[:nfs_host].nil? ? custom[:nfs_host] : "hogehogehoge"
@@ -54,7 +56,7 @@ node[:deploy].each do |application, deploy|
         command "aws s3 sync --exact-timestamps s3://#{bucket_name} #{deploy[:deploy_to]}/current/app/webroot"
         user deploy[:user]
         group deploy[:group]
-        only_if { s3.buckets[bucket_name].exists? && custom[:is_download] }
+        only_if { s3.buckets[bucket_name].exists? && custom[:is_download] && File.exists?("#{deploy[:deploy_to]}/current/app/webroot") }
       end
     end
   end
