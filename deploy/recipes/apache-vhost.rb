@@ -11,7 +11,7 @@ node[:deploy].each do |application, deploy|
   # IP Address
   require_ip = !node[:app][deploy[:application]][:require_ip].nil? && !node[:app][deploy[:application]][:require_ip].empty? ? node[:app][deploy[:application]][:require_ip] : Array.new
   # Any Virtual Host Access Denied
-  web_app 'any' do
+  web_app 'z_any' do
     docroot '/tmp'
     server_name 'any'
     template 'web_any.conf.erb'
