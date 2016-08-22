@@ -11,7 +11,7 @@ node[:deploy].each do |application, deploy|
     next
   end
 
-  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty?
+  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty? && deploy[:application] == node[:app][deploy[:application]][:name]
     custom = node[:app][deploy[:application]]
     
     Chef::Log.info("********** The First deploy::basercms **********")

@@ -7,11 +7,11 @@
 node[:deploy].each do |application, deploy|
 
   if deploy[:application_type] != 'php' && !node[:opsworks][:instance][:layers].include?('cms')
-    Chef::Log.debug("Skipping deploy::php application #{application} as it is not an PHP app")
+    Chef::Log.debug("Skipping deploy::phpmyadmin application #{application} as it is not an phpmyadmin app")
     next
   end
 
-  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty?
+  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty? && deploy[:application] == node[:app][deploy[:application]][:name]
     custom = node[:app][deploy[:application]]
     
     # Install
