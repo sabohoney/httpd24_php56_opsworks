@@ -5,17 +5,19 @@
 #
 
 include_recipe 'deploy::nfs_setup'
+Chef::Log.debug("DDDDD")
 
 node[:deploy].each do |application, deploy|
 
-  if deploy[:application_type] != 'other' || !node[:opsworks][:instance][:layers].include?('nfs')
-    Chef::Log.debug("Skipping deploy::nfs_setup application #{application} as it is not an NFS app")
-    next
-  end
+#   if deploy[:application_type] != 'other' || !node[:opsworks][:instance][:layers].include?('nfs')
+#     Chef::Log.debug("Skipping deploy::nfs_setup application #{application} as it is not an NFS app")
+#     next
+#   end
 
-  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty? && node[:app][deploy[:application]][:run_recipe].include?(recipe_name)
+#  if !node[:app][deploy[:application]].nil? && !node[:app][deploy[:application]].empty? && node[:app][deploy[:application]][:run_recipe].include?(recipe_name)
     custom = node[:app][deploy[:application]]
     
+Chef::Log.debug("EEEEE")
     mntDir = "#{deploy[:deploy_to]}/current/webroot"
     directory mntDir do
       user deploy[:user]
@@ -56,5 +58,5 @@ node[:deploy].each do |application, deploy|
       minute "*/5"
       action :nothing
     end
-  end
+#  end
 end
