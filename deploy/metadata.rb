@@ -19,6 +19,7 @@ depends "nfs"
 
 recipe "deploy::php-deploy", "Deploy a PHP application"
 recipe "deploy::basercms", "Basic Configuration for BaserCMS"
-recipe "deploy::basercms-plugin", "Plugin Configuration for BaserCMS"
+recipe "deploy::cms", "Plugin Configuration for BaserCMS"
 recipe "deploy::sync", "Synchronism Configuration"
 recipe "deploy::phpmyadmin", "Deploy a phpMyAdmin application"
+recipe "deploy::nfs_setup", "Deploy a NFS application"
