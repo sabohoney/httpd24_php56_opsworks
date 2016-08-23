@@ -49,7 +49,13 @@ node[:deploy].each do |application, deploy|
         source "#{deploy[:deploy_to]}/current/app/webroot"
         target "s3://#{bucket_name}"
         notifies :restart, 'service[lsyncd]', :delayed
+        notifies :run, 'cron[lsyncd_restart]', :delayed
         only_if { s3.buckets[bucket_name].exists? && system("mount |grep #{nfsHost}") && custom[:sync] == 'on' }
+      end
+      cron "lsyncd_restart" do
+        command "service lsyncd restart"
+        minute "*/15"
+        action :nothing
       end
       
       execute "AWS S3 Sync" do
