@@ -53,7 +53,7 @@ node[:deploy].each do |application, deploy|
         only_if { s3.buckets[bucket_name].exists? && system("mount |grep #{nfsHost}") && custom[:sync] == 'on' }
       end
       cron "lsyncd_restart" do
-        command "service lsyncd restart"
+        command "/etc/init.d/lsyncd restart"
         minute "*/15"
         action :nothing
       end
