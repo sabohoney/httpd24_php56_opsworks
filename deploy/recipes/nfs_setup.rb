@@ -53,7 +53,7 @@ node[:deploy].each do |application, deploy|
       notifies :create, "cron[custom_metrics]"
     end
     cron "custom_metrics" do
-      command "root/custom_metrics.sh"
+      command "/root/custom_metrics.sh"
       minute "*/5"
       action :nothing
     end
