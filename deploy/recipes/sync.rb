@@ -62,6 +62,8 @@ node[:deploy].each do |application, deploy|
         command "aws s3 sync --exact-timestamps s3://#{bucket_name} #{deploy[:deploy_to]}/current/app/webroot"
         user deploy[:user]
         group deploy[:group]
+        action :nothing
+        subscribes :run, "opsworks_deploy", :immediately
         only_if { s3.buckets[bucket_name].exists? && custom[:is_download] && File.exists?("#{deploy[:deploy_to]}/current/app/webroot") }
       end
     end
